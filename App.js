@@ -14,8 +14,8 @@ export default function App() {
         }}
         source={require("./assets/images/PhotoBG.jpg")}
       >
-        {/* <RegistrationScreen /> */}
-        <LoginScreen />
+        <RegistrationScreen />
+        {/* <LoginScreen /> */}
       </ImageBackground>
     </View>
   );

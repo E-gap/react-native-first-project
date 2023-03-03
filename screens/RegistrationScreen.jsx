@@ -13,6 +13,7 @@ export default function RegistrationScreen() {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [securePassword, setSecurePassword] = useState(true);
 
   const handleSubmit = () => {
     const data = {
@@ -56,8 +57,14 @@ export default function RegistrationScreen() {
             style={styles.inputPassword}
             value={password}
             onChangeText={(value) => setPassword(value)}
+            secureTextEntry={securePassword}
           />
-          <TouchableOpacity style={styles.btnInInput}>
+          <TouchableOpacity
+            style={styles.btnInInput}
+            onPress={() => {
+              setSecurePassword(!securePassword);
+            }}
+          >
             <Text style={styles.showPassword}>Показать</Text>
           </TouchableOpacity>
         </View>
