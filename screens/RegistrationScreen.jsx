@@ -6,11 +6,19 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
+  Image,
 } from "react-native";
+import { SlClose } from "react-icons/sl";
 
 export default function RegistrationScreen() {
   return (
     <View style={styles.bgWhite}>
+      <View style={styles.fotoUser}>
+        <Image />
+        <TouchableOpacity style={styles.btnClose}>
+          <SlClose style={styles.iconClose} />
+        </TouchableOpacity>
+      </View>
       <View style={styles.registration}>
         <Text style={styles.title}>Регистрация</Text>
       </View>
@@ -42,6 +50,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     paddingLeft: 16,
     paddingRight: 16,
+  },
+  fotoUser: {
+    width: 120,
+    height: 120,
+    backgroundColor: "#F6F6F6",
+    borderRadius: 16,
+    position: "absolute",
+    transform: "translate(-50%, -50%)",
+    left: "50%",
+    zIndex: 5,
+  },
+  btnClose: {
+    position: "absolute",
+    right: "0px",
+    transform: "translate(50%)",
+    bottom: 10,
+  },
+  iconClose: {
+    width: 25,
+    height: 25,
+    fill: "#E8E8E8",
   },
   registration: {
     paddingLeft: 80,
@@ -92,6 +121,15 @@ const styles = StyleSheet.create({
 
   logInTitle: {
     fontSize: 16,
+    color: "#1B4371",
+  },
+  btnInInput: {
+    position: "absolute",
+    top: "50%",
+    right: "-5px",
+    transform: "translate(-50%, -50%)",
+  },
+  showPassword: {
     color: "#1B4371",
   },
 });
