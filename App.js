@@ -14,7 +14,11 @@ export default function App() {
   return (
     <View style={styles.container}>
       <ImageBackground
-        style={styles.bgImage}
+        style={{
+          resizeMode: "contain",
+          height: "100%",
+          justifyContent: "flex-end",
+        }}
         source={require("./assets/images/PhotoBG.jpg")}
       >
         <RegistrationScreen />
@@ -30,11 +34,5 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",
-  },
-
-  bgImage: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "flex-end",
   },
 });
