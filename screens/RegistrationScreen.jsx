@@ -7,8 +7,25 @@ import {
   Image,
 } from "react-native";
 import { SlClose } from "react-icons/sl";
+import { useState } from "react";
 
 export default function RegistrationScreen() {
+  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = () => {
+    const data = {
+      login,
+      email,
+      password,
+    };
+    console.log(data);
+    setLogin("");
+    setEmail("");
+    setPassword("");
+  };
+
   return (
     <View style={styles.bgWhite}>
       <View style={styles.fotoUser}>
@@ -21,15 +38,34 @@ export default function RegistrationScreen() {
         <Text style={styles.title}>Регистрация</Text>
       </View>
       <View>
-        <TextInput placeholder="Логин" style={styles.input} />
-        <TextInput placeholder="Адрес электронной почты" style={styles.input} />
+        <TextInput
+          placeholder="Логин"
+          style={styles.input}
+          value={login}
+          onChangeText={(value) => setLogin(value)}
+        />
+        <TextInput
+          placeholder="Адрес электронной почты"
+          style={styles.input}
+          value={email}
+          onChangeText={(value) => setEmail(value)}
+        />
         <View style={styles.password}>
-          <TextInput placeholder="Пароль" style={styles.inputPassword} />
+          <TextInput
+            placeholder="Пароль"
+            style={styles.inputPassword}
+            value={password}
+            onChangeText={(value) => setPassword(value)}
+          />
           <TouchableOpacity style={styles.btnInInput}>
             <Text style={styles.showPassword}>Показать</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity activeOpacity={0.8} style={styles.checkIn}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.checkIn}
+          onPress={handleSubmit}
+        >
           <Text style={styles.checkInTitle}>Зарегистрироваться</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.logIn}>
