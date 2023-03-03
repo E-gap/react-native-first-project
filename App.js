@@ -1,14 +1,7 @@
-/* import { StatusBar } from "expo-status-bar"; */
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Button,
-  TextInput,
-} from "react-native";
-/* import { TextInput } from "react-native-web"; */
+import { StyleSheet, View, ImageBackground } from "react-native";
+
 import RegistrationScreen from "./screens/RegistrationScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 export default function App() {
   return (
@@ -21,7 +14,8 @@ export default function App() {
         }}
         source={require("./assets/images/PhotoBG.jpg")}
       >
-        <RegistrationScreen />
+        {/* <RegistrationScreen /> */}
+        <LoginScreen />
       </ImageBackground>
     </View>
   );
