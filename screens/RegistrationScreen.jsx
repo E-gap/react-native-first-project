@@ -5,6 +5,10 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Platform,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { SlClose } from "react-icons/sl";
 import { useState } from "react";
@@ -15,6 +19,7 @@ export default function RegistrationScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [securePassword, setSecurePassword] = useState(true);
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const toShowPassword = securePassword ? "Показать" : "Скрыть";
 
@@ -25,70 +30,89 @@ export default function RegistrationScreen() {
       password,
     };
     console.log(data);
+    setIsShowKeyboard(false);
     setLogin("");
     setEmail("");
     setPassword("");
   };
 
   return (
-    <View style={styles.bgWhite}>
-      <View style={styles.fotoUser}>
-        <Image />
-        <TouchableOpacity style={styles.btnClose}>
-          <AntDesign name="closecircleo" size={25} color="#E8E8E8" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.registration}>
-        <Text style={styles.title}>Регистрация</Text>
-      </View>
-      <View>
-        <TextInput
-          placeholder="Логин"
-          placeholderTextColor="#BDBDBD"
-          style={styles.input}
-          value={login}
-          onChangeText={(value) => setLogin(value)}
-        />
-        <TextInput
-          placeholder="Адрес электронной почты"
-          placeholderTextColor="#BDBDBD"
-          style={styles.input}
-          value={email}
-          onChangeText={(value) => setEmail(value)}
-        />
-        <View style={styles.password}>
-          <TextInput
-            placeholder="Пароль"
-            placeholderTextColor="#BDBDBD"
-            style={styles.inputPassword}
-            value={password}
-            onChangeText={(value) => setPassword(value)}
-            secureTextEntry={securePassword}
-          />
-          <TouchableOpacity
-            style={styles.btnInInput}
-            onPress={() => {
-              setSecurePassword(!securePassword);
-            }}
-          >
-            <Text style={styles.showPassword}>{toShowPassword}</Text>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        setIsShowKeyboard(false);
+        Keyboard.dismiss();
+      }}
+    >
+      <View
+        style={{ ...styles.bgWhite, marginBottom: isShowKeyboard ? -150 : 0 }}
+      >
+        <View style={styles.fotoUser}>
+          <Image />
+          <TouchableOpacity style={styles.btnClose}>
+            <AntDesign name="closecircleo" size={25} color="#E8E8E8" />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.checkIn}
-          onPress={handleSubmit}
-        >
-          <Text style={styles.checkInTitle}>Зарегистрироваться</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.logIn}>
-          <Text style={styles.logInTitle}>Уже есть аккаунт? Войти</Text>
+        <View style={styles.registration}>
+          <Text style={styles.title}>Регистрация</Text>
+        </View>
+        <View>
+          <TextInput
+            placeholder="Логин"
+            placeholderTextColor="#BDBDBD"
+            style={styles.input}
+            value={login}
+            onChangeText={(value) => setLogin(value)}
+            onFocus={() => {
+              setIsShowKeyboard(true);
+            }}
+          />
+          <TextInput
+            placeholder="Адрес электронной почты"
+            placeholderTextColor="#BDBDBD"
+            style={styles.input}
+            value={email}
+            onChangeText={(value) => setEmail(value)}
+            onFocus={() => {
+              setIsShowKeyboard(true);
+            }}
+          />
+          <View style={styles.password}>
+            <TextInput
+              placeholder="Пароль"
+              placeholderTextColor="#BDBDBD"
+              style={styles.inputPassword}
+              value={password}
+              onChangeText={(value) => setPassword(value)}
+              secureTextEntry={securePassword}
+              onFocus={() => {
+                setIsShowKeyboard(true);
+              }}
+            />
+            <TouchableOpacity
+              style={styles.btnInInput}
+              onPress={() => {
+                setSecurePassword(!securePassword);
+              }}
+            >
+              <Text style={styles.showPassword}>{toShowPassword}</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.checkIn}
+            onPress={handleSubmit}
+          >
+            <Text style={styles.checkInTitle}>Зарегистрироваться</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.logIn}>
+            <Text style={styles.logInTitle}>Уже есть аккаунт? Войти</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.line}>
+          <Text></Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.line}>
-        <Text></Text>
-      </TouchableOpacity>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -109,7 +133,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     transform: [{ translateX: -50 }, { translateY: -60 }],
     left: "50%",
-
     zIndex: 5,
   },
   btnClose: {

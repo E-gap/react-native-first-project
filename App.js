@@ -20,12 +20,12 @@ export default function App() {
         }}
         source={require("./assets/images/PhotoBG.jpg")}
       >
-        <KeyboardAvoidingView
+        {/* <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          {/* <RegistrationScreen /> */}
-          <LoginScreen />
-        </KeyboardAvoidingView>
+        > */}
+        <RegistrationScreen />
+        {/* <LoginScreen /> */}
+        {/* </KeyboardAvoidingView> */}
       </ImageBackground>
     </View>
   );
