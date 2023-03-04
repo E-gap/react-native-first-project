@@ -1,4 +1,10 @@
-import { StyleSheet, View, ImageBackground } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  Platform,
+  KeyboardAvoidingView,
+} from "react-native";
 
 import RegistrationScreen from "./screens/RegistrationScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -8,14 +14,18 @@ export default function App() {
     <View style={styles.container}>
       <ImageBackground
         style={{
-          resizeMode: "contain",
+          resizeMode: "cover",
           height: "100%",
           justifyContent: "flex-end",
         }}
         source={require("./assets/images/PhotoBG.jpg")}
       >
-        <RegistrationScreen />
-        {/* <LoginScreen /> */}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          {/* <RegistrationScreen /> */}
+          <LoginScreen />
+        </KeyboardAvoidingView>
       </ImageBackground>
     </View>
   );
@@ -23,10 +33,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    width: 500,
     flex: 1,
     backgroundColor: "red",
-    alignItems: "center",
-    justifyContent: "center",
   },
 });

@@ -8,12 +8,15 @@ import {
 } from "react-native";
 import { SlClose } from "react-icons/sl";
 import { useState } from "react";
+import { AntDesign } from "react-native-vector-icons";
 
 export default function RegistrationScreen() {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [securePassword, setSecurePassword] = useState(true);
+
+  const toShowPassword = securePassword ? "Показать" : "Скрыть";
 
   const handleSubmit = () => {
     const data = {
@@ -32,7 +35,7 @@ export default function RegistrationScreen() {
       <View style={styles.fotoUser}>
         <Image />
         <TouchableOpacity style={styles.btnClose}>
-          <SlClose style={styles.iconClose} />
+          <AntDesign name="closecircleo" size={25} color="#E8E8E8" />
         </TouchableOpacity>
       </View>
       <View style={styles.registration}>
@@ -41,12 +44,14 @@ export default function RegistrationScreen() {
       <View>
         <TextInput
           placeholder="Логин"
+          placeholderTextColor="#BDBDBD"
           style={styles.input}
           value={login}
           onChangeText={(value) => setLogin(value)}
         />
         <TextInput
           placeholder="Адрес электронной почты"
+          placeholderTextColor="#BDBDBD"
           style={styles.input}
           value={email}
           onChangeText={(value) => setEmail(value)}
@@ -54,6 +59,7 @@ export default function RegistrationScreen() {
         <View style={styles.password}>
           <TextInput
             placeholder="Пароль"
+            placeholderTextColor="#BDBDBD"
             style={styles.inputPassword}
             value={password}
             onChangeText={(value) => setPassword(value)}
@@ -65,7 +71,7 @@ export default function RegistrationScreen() {
               setSecurePassword(!securePassword);
             }}
           >
-            <Text style={styles.showPassword}>Показать</Text>
+            <Text style={styles.showPassword}>{toShowPassword}</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -89,7 +95,6 @@ export default function RegistrationScreen() {
 const styles = StyleSheet.create({
   bgWhite: {
     height: 549,
-    width: 375,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: "#FFFFFF",
@@ -102,21 +107,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#F6F6F6",
     borderRadius: 16,
     position: "absolute",
-    transform: "translate(-50%, -50%)",
+    transform: [{ translateX: -50 }, { translateY: -60 }],
     left: "50%",
+
     zIndex: 5,
   },
   btnClose: {
     position: "absolute",
-    right: "0px",
-    transform: "translate(50%)",
+    right: 0,
+    transform: [{ translateX: 12 }],
     bottom: 10,
   },
-  iconClose: {
-    width: 25,
-    height: 25,
-    fill: "#E8E8E8",
-  },
+
   registration: {
     paddingLeft: 80,
     paddingRight: 80,
@@ -134,8 +136,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 15,
     paddingLeft: 16,
-    placeholderTextColor: "#BDBDBD",
-    border: "1px solid #E8E8E8",
+    borderWidth: 1,
   },
   password: {
     marginBottom: 43,
@@ -146,12 +147,11 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 15,
     paddingLeft: 16,
-    placeholderTextColor: "#BDBDBD",
-    border: "1px solid #E8E8E8",
+    borderWidth: 1,
   },
   checkIn: {
     backgroundColor: "#FF6C00",
-    borderRadius: "100px",
+    borderRadius: 100,
     textAlign: "center",
     paddingBottom: 16,
     paddingTop: 16,
@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
   checkInTitle: {
     fontSize: 16,
     color: "#FFFFFF",
+    textAlign: "center",
   },
   logIn: {
     textAlign: "center",
@@ -168,12 +169,13 @@ const styles = StyleSheet.create({
   logInTitle: {
     fontSize: 16,
     color: "#1B4371",
+    textAlign: "center",
   },
   btnInInput: {
     position: "absolute",
     top: "50%",
-    right: "-5px",
-    transform: "translate(-50%, -50%)",
+    right: 16,
+    transform: [{ translateY: -10 }],
   },
   showPassword: {
     color: "#1B4371",
@@ -185,6 +187,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 8,
     left: "50%",
-    transform: "translate(-50%)",
+    transform: [{ translateX: -50 }],
   },
 });

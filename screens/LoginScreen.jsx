@@ -4,7 +4,6 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Image,
 } from "react-native";
 import { useState } from "react";
 
@@ -12,6 +11,8 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [securePassword, setSecurePassword] = useState(true);
+
+  const toShowPassword = securePassword ? "Показать" : "Скрыть";
 
   const handleSubmit = () => {
     const data = {
@@ -22,6 +23,7 @@ export default function LoginScreen() {
     setEmail("");
     setPassword("");
   };
+
   return (
     <View style={styles.bgWhite}>
       <View style={styles.login}>
@@ -30,6 +32,7 @@ export default function LoginScreen() {
       <View>
         <TextInput
           placeholder="Адрес электронной почты"
+          placeholderTextColor="#BDBDBD"
           style={styles.input}
           value={email}
           onChangeText={(value) => setEmail(value)}
@@ -37,6 +40,7 @@ export default function LoginScreen() {
         <View style={styles.password}>
           <TextInput
             placeholder="Пароль"
+            placeholderTextColor="#BDBDBD"
             style={styles.inputPassword}
             value={password}
             onChangeText={(value) => setPassword(value)}
@@ -48,7 +52,7 @@ export default function LoginScreen() {
               setSecurePassword(!securePassword);
             }}
           >
-            <Text style={styles.showPassword}>Показать</Text>
+            <Text style={styles.showPassword}>{toShowPassword}</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -74,7 +78,6 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   bgWhite: {
     height: 489,
-    width: 375,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: "#FFFFFF",
@@ -91,6 +94,7 @@ const styles = StyleSheet.create({
     marginBottom: 33,
     fontSize: 30,
     paddingTop: 32,
+    textAlign: "center",
   },
   input: {
     backgroundColor: "#F6F6F6",
@@ -99,8 +103,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 15,
     paddingLeft: 16,
-    placeholderTextColor: "#BDBDBD",
-    border: "1px solid #E8E8E8",
+    borderWidth: 1,
   },
   password: {
     marginBottom: 43,
@@ -111,16 +114,16 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 15,
     paddingLeft: 16,
-    placeholderTextColor: "#BDBDBD",
-    border: "1px solid #E8E8E8",
+    borderWidth: 1,
   },
   checkIn: {
     backgroundColor: "#FF6C00",
-    borderRadius: "100px",
+    borderRadius: 100,
     textAlign: "center",
     paddingBottom: 16,
     paddingTop: 16,
     marginBottom: 16,
+    alignItems: "center",
   },
   checkInTitle: {
     fontSize: 16,
@@ -133,12 +136,13 @@ const styles = StyleSheet.create({
   logInTitle: {
     fontSize: 16,
     color: "#1B4371",
+    textAlign: "center",
   },
   btnInInput: {
     position: "absolute",
     top: "50%",
-    right: "-5px",
-    transform: "translate(-50%, -50%)",
+    right: 16,
+    transform: [{ translateY: -10 }],
   },
   showPassword: {
     color: "#1B4371",
@@ -150,6 +154,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 8,
     left: "50%",
-    transform: "translate(-50%)",
+    transform: [{ translateX: -50 }],
   },
 });
