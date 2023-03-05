@@ -9,8 +9,9 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  ImageBackground,
 } from "react-native";
-import { SlClose } from "react-icons/sl";
+
 import { useState } from "react";
 import { AntDesign } from "react-native-vector-icons";
 
@@ -30,100 +31,125 @@ export default function RegistrationScreen() {
       password,
     };
     console.log(data);
-    setIsShowKeyboard(false);
     setLogin("");
     setEmail("");
     setPassword("");
   };
 
+  const clickOnBackground = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+  };
+
+  console.log(isShowKeyboard);
+
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        setIsShowKeyboard(false);
-        Keyboard.dismiss();
-      }}
-    >
-      <View
-        style={{ ...styles.bgWhite, marginBottom: isShowKeyboard ? -150 : 0 }}
-      >
-        <View style={styles.fotoUser}>
-          <Image />
-          <TouchableOpacity style={styles.btnClose}>
-            <AntDesign name="closecircleo" size={25} color="#E8E8E8" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.registration}>
-          <Text style={styles.title}>Регистрация</Text>
-        </View>
-        <View>
-          <TextInput
-            placeholder="Логин"
-            placeholderTextColor="#BDBDBD"
-            style={styles.input}
-            value={login}
-            onChangeText={(value) => setLogin(value)}
-            onFocus={() => {
-              setIsShowKeyboard(true);
-            }}
-          />
-          <TextInput
-            placeholder="Адрес электронной почты"
-            placeholderTextColor="#BDBDBD"
-            style={styles.input}
-            value={email}
-            onChangeText={(value) => setEmail(value)}
-            onFocus={() => {
-              setIsShowKeyboard(true);
-            }}
-          />
-          <View style={styles.password}>
-            <TextInput
-              placeholder="Пароль"
-              placeholderTextColor="#BDBDBD"
-              style={styles.inputPassword}
-              value={password}
-              onChangeText={(value) => setPassword(value)}
-              secureTextEntry={securePassword}
-              onFocus={() => {
-                setIsShowKeyboard(true);
-              }}
-            />
-            <TouchableOpacity
-              style={styles.btnInInput}
-              onPress={() => {
-                setSecurePassword(!securePassword);
+    <TouchableWithoutFeedback onPress={clickOnBackground}>
+      <View style={styles.container}>
+        <ImageBackground
+          style={styles.image}
+          source={require("../assets/images/PhotoBG.jpg")}
+        >
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <View
+              style={{
+                ...styles.form,
+                marginBottom: isShowKeyboard ? 80 : 0,
               }}
             >
-              <Text style={styles.showPassword}>{toShowPassword}</Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.checkIn}
-            onPress={handleSubmit}
-          >
-            <Text style={styles.checkInTitle}>Зарегистрироваться</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.logIn}>
-            <Text style={styles.logInTitle}>Уже есть аккаунт? Войти</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.line}>
-          <Text></Text>
-        </TouchableOpacity>
+              <View style={styles.fotoUser}>
+                <Image />
+                <TouchableOpacity style={styles.btnClose}>
+                  <AntDesign name="closecircleo" size={25} color="#E8E8E8" />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.registration}>
+                <Text style={styles.title}>Регистрация</Text>
+              </View>
+              <View>
+                <TextInput
+                  placeholder="Логин"
+                  placeholderTextColor="#BDBDBD"
+                  style={styles.input}
+                  value={login}
+                  onChangeText={(value) => setLogin(value)}
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                  }}
+                />
+                <TextInput
+                  placeholder="Адрес электронной почты"
+                  placeholderTextColor="#BDBDBD"
+                  style={styles.input}
+                  value={email}
+                  onChangeText={(value) => setEmail(value)}
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                  }}
+                />
+                <View style={styles.password}>
+                  <TextInput
+                    placeholder="Пароль"
+                    placeholderTextColor="#BDBDBD"
+                    style={styles.inputPassword}
+                    value={password}
+                    onChangeText={(value) => setPassword(value)}
+                    secureTextEntry={securePassword}
+                    onFocus={() => {
+                      setIsShowKeyboard(true);
+                    }}
+                  />
+                  <TouchableOpacity
+                    style={styles.btnInInput}
+                    onPress={() => {
+                      setSecurePassword(!securePassword);
+                    }}
+                  >
+                    <Text style={styles.showPassword}>{toShowPassword}</Text>
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={styles.checkIn}
+                  onPress={handleSubmit}
+                >
+                  <Text style={styles.checkInTitle}>Зарегистрироваться</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.logIn}>
+                  <Text style={styles.logInTitle}>Уже есть аккаунт? Войти</Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity style={styles.line}>
+                <Text></Text>
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
       </View>
     </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
-  bgWhite: {
-    height: 549,
+  container: {
+    flex: 1,
+    backgroundColor: "red",
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "flex-end",
+  },
+  form: {
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: "#FFFFFF",
     paddingLeft: 16,
     paddingRight: 16,
+    paddingTop: 92,
+    paddingBottom: 78,
   },
   fotoUser: {
     width: 120,
@@ -141,7 +167,6 @@ const styles = StyleSheet.create({
     transform: [{ translateX: 12 }],
     bottom: 10,
   },
-
   registration: {
     paddingLeft: 80,
     paddingRight: 80,
@@ -150,7 +175,6 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 33,
     fontSize: 30,
-    paddingTop: 92,
   },
   input: {
     backgroundColor: "#F6F6F6",
@@ -188,7 +212,6 @@ const styles = StyleSheet.create({
   logIn: {
     textAlign: "center",
   },
-
   logInTitle: {
     fontSize: 16,
     color: "#1B4371",
