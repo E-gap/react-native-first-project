@@ -12,7 +12,7 @@ import {
   ImageBackground,
 } from "react-native";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AntDesign } from "react-native-vector-icons";
 
 export default function RegistrationScreen() {
@@ -21,8 +21,21 @@ export default function RegistrationScreen() {
   const [password, setPassword] = useState("");
   const [securePassword, setSecurePassword] = useState(true);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [isLoginFocused, setIsLoginFocused] = useState(false);
 
   const toShowPassword = securePassword ? "Показать" : "Скрыть";
+
+  useEffect(() => {
+    const hideKeyboard = Keyboard.addListener("keyboardDidHide", () => {
+      setIsShowKeyboard(false);
+    });
+
+    return () => {
+      hideKeyboard.remove();
+    };
+  }, []);
 
   const handleSubmit = () => {
     const data = {
@@ -41,8 +54,6 @@ export default function RegistrationScreen() {
     Keyboard.dismiss();
   };
 
-  console.log(isShowKeyboard);
-
   return (
     <TouchableWithoutFeedback onPress={clickOnBackground}>
       <View style={styles.container}>
@@ -51,12 +62,12 @@ export default function RegistrationScreen() {
           source={require("../assets/images/PhotoBG.jpg")}
         >
           <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
+            behavior={Platform.OS == "ios" ? "padding" : ""}
           >
             <View
               style={{
                 ...styles.form,
-                marginBottom: isShowKeyboard ? 80 : 0,
+                marginBottom: isShowKeyboard ? -200 : 0,
               }}
             >
               <View style={styles.fotoUser}>
@@ -72,33 +83,54 @@ export default function RegistrationScreen() {
                 <TextInput
                   placeholder="Логин"
                   placeholderTextColor="#BDBDBD"
-                  style={styles.input}
+                  style={{
+                    ...styles.input,
+                    borderColor: isLoginFocused ? "#FF6C00" : "#E8E8E8",
+                  }}
                   value={login}
                   onChangeText={(value) => setLogin(value)}
                   onFocus={() => {
                     setIsShowKeyboard(true);
+                    setIsLoginFocused(true);
+                  }}
+                  onBlur={() => {
+                    setIsLoginFocused(false);
                   }}
                 />
                 <TextInput
                   placeholder="Адрес электронной почты"
                   placeholderTextColor="#BDBDBD"
-                  style={styles.input}
+                  style={{
+                    ...styles.input,
+                    borderColor: isEmailFocused ? "#FF6C00" : "#E8E8E8",
+                  }}
                   value={email}
                   onChangeText={(value) => setEmail(value)}
                   onFocus={() => {
                     setIsShowKeyboard(true);
+                    setIsEmailFocused(true);
+                  }}
+                  onBlur={() => {
+                    setIsEmailFocused(false);
                   }}
                 />
                 <View style={styles.password}>
                   <TextInput
                     placeholder="Пароль"
                     placeholderTextColor="#BDBDBD"
-                    style={styles.inputPassword}
+                    style={{
+                      ...styles.inputPassword,
+                      borderColor: isPasswordFocused ? "#FF6C00" : "#E8E8E8",
+                    }}
                     value={password}
                     onChangeText={(value) => setPassword(value)}
                     secureTextEntry={securePassword}
                     onFocus={() => {
                       setIsShowKeyboard(true);
+                      setIsPasswordFocused(true);
+                    }}
+                    onBlur={() => {
+                      setIsPasswordFocused(false);
                     }}
                   />
                   <TouchableOpacity
@@ -184,6 +216,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingLeft: 16,
     borderWidth: 1,
+    borderColor: "#E8E8E8",
   },
   password: {
     marginBottom: 43,
@@ -195,6 +228,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingLeft: 16,
     borderWidth: 1,
+    borderColor: "#E8E8E8",
   },
   checkIn: {
     backgroundColor: "#FF6C00",
