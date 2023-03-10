@@ -9,6 +9,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ImageBackground,
+  KeyboardMetrics,
 } from "react-native";
 import { useState, useEffect } from "react";
 
@@ -51,16 +52,19 @@ export default function LoginScreen() {
     <TouchableWithoutFeedback onPress={clickOnBackground}>
       <View style={styles.container}>
         <ImageBackground
-          style={styles.image}
+          style={{
+            ...styles.image,
+            marginBottom: isShowKeyboard ? -280 : 0,
+          }}
           source={require("../assets/images/PhotoBG.jpg")}
         >
           <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : ""}
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
           >
             <View
               style={{
                 ...styles.form,
-                marginBottom: isShowKeyboard ? -220 : 0,
+                marginBottom: isShowKeyboard ? 200 : 0,
               }}
             >
               <View style={styles.login}>
@@ -78,56 +82,11 @@ export default function LoginScreen() {
                   onChangeText={(value) => setEmail(value)}
                   onFocus={() => {
                     setIsShowKeyboard(true);
-                    setIsEmailFocused(true);
-                  }}
-                  onBlur={() => {
-                    setIsEmailFocused(false);
+                    //console.log(Keyboard.metrics().height);
+                    Keyboard.metrics;
                   }}
                 />
-                <View style={styles.password}>
-                  <TextInput
-                    placeholder="Пароль"
-                    placeholderTextColor="#BDBDBD"
-                    style={{
-                      ...styles.inputPassword,
-                      borderColor: isPasswordFocused ? "#FF6C00" : "#E8E8E8",
-                    }}
-                    value={password}
-                    onChangeText={(value) => setPassword(value)}
-                    secureTextEntry={securePassword}
-                    onFocus={() => {
-                      setIsShowKeyboard(true);
-                      setIsPasswordFocused(true);
-                    }}
-                    onBlur={() => {
-                      setIsPasswordFocused(false);
-                    }}
-                  />
-                  <TouchableOpacity
-                    style={styles.btnInInput}
-                    onPress={() => {
-                      setSecurePassword(!securePassword);
-                    }}
-                  >
-                    <Text style={styles.showPassword}>{toShowPassword}</Text>
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={styles.checkIn}
-                  onPress={handleSubmit}
-                >
-                  <Text style={styles.checkInTitle}>Войти</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.logIn}>
-                  <Text style={styles.logInTitle}>
-                    Нет аккаунта? Зарегистрироваться
-                  </Text>
-                </TouchableOpacity>
               </View>
-              <TouchableOpacity style={styles.line}>
-                <Text></Text>
-              </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
         </ImageBackground>
@@ -147,7 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   form: {
-    height: 489,
+    height: 300,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: "#FFFFFF",
