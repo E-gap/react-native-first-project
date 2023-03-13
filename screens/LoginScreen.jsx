@@ -5,10 +5,10 @@ import {
   TextInput,
   TouchableOpacity,
   Platform,
+  Image,
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  ImageBackground,
 } from "react-native";
 import { useState, useEffect } from "react";
 
@@ -50,87 +50,84 @@ export default function LoginScreen() {
   return (
     <TouchableWithoutFeedback onPress={clickOnBackground}>
       <View style={styles.container}>
-        <ImageBackground
-          style={styles.image}
+        <Image
+          style={styles.imageBg}
           source={require("../assets/images/PhotoBG.jpg")}
-        >
-          <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : ""}
+        />
+        <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : ""}>
+          <View
+            style={{
+              ...styles.form,
+              marginBottom: isShowKeyboard ? -220 : 0,
+            }}
           >
-            <View
-              style={{
-                ...styles.form,
-                marginBottom: isShowKeyboard ? -220 : 0,
-              }}
-            >
-              <View style={styles.login}>
-                <Text style={styles.title}>Войти</Text>
-              </View>
-              <View>
+            <View style={styles.login}>
+              <Text style={styles.title}>Войти</Text>
+            </View>
+            <View>
+              <TextInput
+                placeholder="Адрес электронной почты"
+                placeholderTextColor="#BDBDBD"
+                style={{
+                  ...styles.input,
+                  borderColor: isEmailFocused ? "#FF6C00" : "#E8E8E8",
+                }}
+                value={email}
+                onChangeText={(value) => setEmail(value)}
+                onFocus={() => {
+                  setIsShowKeyboard(true);
+                  setIsEmailFocused(true);
+                }}
+                onBlur={() => {
+                  setIsEmailFocused(false);
+                }}
+              />
+              <View style={styles.password}>
                 <TextInput
-                  placeholder="Адрес электронной почты"
+                  placeholder="Пароль"
                   placeholderTextColor="#BDBDBD"
                   style={{
-                    ...styles.input,
-                    borderColor: isEmailFocused ? "#FF6C00" : "#E8E8E8",
+                    ...styles.inputPassword,
+                    borderColor: isPasswordFocused ? "#FF6C00" : "#E8E8E8",
                   }}
-                  value={email}
-                  onChangeText={(value) => setEmail(value)}
+                  value={password}
+                  onChangeText={(value) => setPassword(value)}
+                  secureTextEntry={securePassword}
                   onFocus={() => {
                     setIsShowKeyboard(true);
-                    setIsEmailFocused(true);
+                    setIsPasswordFocused(true);
                   }}
                   onBlur={() => {
-                    setIsEmailFocused(false);
+                    setIsPasswordFocused(false);
                   }}
                 />
-                <View style={styles.password}>
-                  <TextInput
-                    placeholder="Пароль"
-                    placeholderTextColor="#BDBDBD"
-                    style={{
-                      ...styles.inputPassword,
-                      borderColor: isPasswordFocused ? "#FF6C00" : "#E8E8E8",
-                    }}
-                    value={password}
-                    onChangeText={(value) => setPassword(value)}
-                    secureTextEntry={securePassword}
-                    onFocus={() => {
-                      setIsShowKeyboard(true);
-                      setIsPasswordFocused(true);
-                    }}
-                    onBlur={() => {
-                      setIsPasswordFocused(false);
-                    }}
-                  />
-                  <TouchableOpacity
-                    style={styles.btnInInput}
-                    onPress={() => {
-                      setSecurePassword(!securePassword);
-                    }}
-                  >
-                    <Text style={styles.showPassword}>{toShowPassword}</Text>
-                  </TouchableOpacity>
-                </View>
                 <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={styles.checkIn}
-                  onPress={handleSubmit}
+                  style={styles.btnInInput}
+                  onPress={() => {
+                    setSecurePassword(!securePassword);
+                  }}
                 >
-                  <Text style={styles.checkInTitle}>Войти</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.logIn}>
-                  <Text style={styles.logInTitle}>
-                    Нет аккаунта? Зарегистрироваться
-                  </Text>
+                  <Text style={styles.showPassword}>{toShowPassword}</Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity style={styles.line}>
-                <Text></Text>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.checkIn}
+                onPress={handleSubmit}
+              >
+                <Text style={styles.checkInTitle}>Войти</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.logIn}>
+                <Text style={styles.logInTitle}>
+                  Нет аккаунта? Зарегистрироваться
+                </Text>
               </TouchableOpacity>
             </View>
-          </KeyboardAvoidingView>
-        </ImageBackground>
+            <TouchableOpacity style={styles.line}>
+              <Text></Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -140,12 +137,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "red",
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
     justifyContent: "flex-end",
   },
+  imageBg: {
+    resizeMode: "cover",
+    position: "absolute",
+    top: 0,
+    width: "100%",
+  },
+
   form: {
     height: 489,
     borderTopLeftRadius: 25,

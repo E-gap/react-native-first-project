@@ -4,12 +4,11 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Image,
   Platform,
+  Image,
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  ImageBackground,
 } from "react-native";
 
 import { useState, useEffect } from "react";
@@ -57,108 +56,105 @@ export default function RegistrationScreen() {
   return (
     <TouchableWithoutFeedback onPress={clickOnBackground}>
       <View style={styles.container}>
-        <ImageBackground
-          style={styles.image}
+        <Image
+          style={styles.imageBg}
           source={require("../assets/images/PhotoBG.jpg")}
-        >
-          <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : ""}
+        />
+        <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : ""}>
+          <View
+            style={{
+              ...styles.form,
+              marginBottom: isShowKeyboard ? -200 : 0,
+            }}
           >
-            <View
-              style={{
-                ...styles.form,
-                marginBottom: isShowKeyboard ? -200 : 0,
-              }}
-            >
-              <View style={styles.fotoUser}>
-                <Image />
-                <TouchableOpacity style={styles.btnClose}>
-                  <AntDesign name="closecircleo" size={25} color="#E8E8E8" />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.registration}>
-                <Text style={styles.title}>Регистрация</Text>
-              </View>
-              <View>
-                <TextInput
-                  placeholder="Логин"
-                  placeholderTextColor="#BDBDBD"
-                  style={{
-                    ...styles.input,
-                    borderColor: isLoginFocused ? "#FF6C00" : "#E8E8E8",
-                  }}
-                  value={login}
-                  onChangeText={(value) => setLogin(value)}
-                  onFocus={() => {
-                    setIsShowKeyboard(true);
-                    setIsLoginFocused(true);
-                  }}
-                  onBlur={() => {
-                    setIsLoginFocused(false);
-                  }}
-                />
-                <TextInput
-                  placeholder="Адрес электронной почты"
-                  placeholderTextColor="#BDBDBD"
-                  style={{
-                    ...styles.input,
-                    borderColor: isEmailFocused ? "#FF6C00" : "#E8E8E8",
-                  }}
-                  value={email}
-                  onChangeText={(value) => setEmail(value)}
-                  onFocus={() => {
-                    setIsShowKeyboard(true);
-                    setIsEmailFocused(true);
-                  }}
-                  onBlur={() => {
-                    setIsEmailFocused(false);
-                  }}
-                />
-                <View style={styles.password}>
-                  <TextInput
-                    placeholder="Пароль"
-                    placeholderTextColor="#BDBDBD"
-                    style={{
-                      ...styles.inputPassword,
-                      borderColor: isPasswordFocused ? "#FF6C00" : "#E8E8E8",
-                    }}
-                    value={password}
-                    onChangeText={(value) => setPassword(value)}
-                    secureTextEntry={securePassword}
-                    onFocus={() => {
-                      setIsShowKeyboard(true);
-                      setIsPasswordFocused(true);
-                    }}
-                    onBlur={() => {
-                      setIsPasswordFocused(false);
-                    }}
-                  />
-                  <TouchableOpacity
-                    style={styles.btnInInput}
-                    onPress={() => {
-                      setSecurePassword(!securePassword);
-                    }}
-                  >
-                    <Text style={styles.showPassword}>{toShowPassword}</Text>
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={styles.checkIn}
-                  onPress={handleSubmit}
-                >
-                  <Text style={styles.checkInTitle}>Зарегистрироваться</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.logIn}>
-                  <Text style={styles.logInTitle}>Уже есть аккаунт? Войти</Text>
-                </TouchableOpacity>
-              </View>
-              <TouchableOpacity style={styles.line}>
-                <Text></Text>
+            <View style={styles.fotoUser}>
+              <Image />
+              <TouchableOpacity style={styles.btnClose}>
+                <AntDesign name="closecircleo" size={25} color="#E8E8E8" />
               </TouchableOpacity>
             </View>
-          </KeyboardAvoidingView>
-        </ImageBackground>
+            <View style={styles.registration}>
+              <Text style={styles.title}>Регистрация</Text>
+            </View>
+            <View>
+              <TextInput
+                placeholder="Логин"
+                placeholderTextColor="#BDBDBD"
+                style={{
+                  ...styles.input,
+                  borderColor: isLoginFocused ? "#FF6C00" : "#E8E8E8",
+                }}
+                value={login}
+                onChangeText={(value) => setLogin(value)}
+                onFocus={() => {
+                  setIsShowKeyboard(true);
+                  setIsLoginFocused(true);
+                }}
+                onBlur={() => {
+                  setIsLoginFocused(false);
+                }}
+              />
+              <TextInput
+                placeholder="Адрес электронной почты"
+                placeholderTextColor="#BDBDBD"
+                style={{
+                  ...styles.input,
+                  borderColor: isEmailFocused ? "#FF6C00" : "#E8E8E8",
+                }}
+                value={email}
+                onChangeText={(value) => setEmail(value)}
+                onFocus={() => {
+                  setIsShowKeyboard(true);
+                  setIsEmailFocused(true);
+                }}
+                onBlur={() => {
+                  setIsEmailFocused(false);
+                }}
+              />
+              <View style={styles.password}>
+                <TextInput
+                  placeholder="Пароль"
+                  placeholderTextColor="#BDBDBD"
+                  style={{
+                    ...styles.inputPassword,
+                    borderColor: isPasswordFocused ? "#FF6C00" : "#E8E8E8",
+                  }}
+                  value={password}
+                  onChangeText={(value) => setPassword(value)}
+                  secureTextEntry={securePassword}
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                    setIsPasswordFocused(true);
+                  }}
+                  onBlur={() => {
+                    setIsPasswordFocused(false);
+                  }}
+                />
+                <TouchableOpacity
+                  style={styles.btnInInput}
+                  onPress={() => {
+                    setSecurePassword(!securePassword);
+                  }}
+                >
+                  <Text style={styles.showPassword}>{toShowPassword}</Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.checkIn}
+                onPress={handleSubmit}
+              >
+                <Text style={styles.checkInTitle}>Зарегистрироваться</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.logIn}>
+                <Text style={styles.logInTitle}>Уже есть аккаунт? Войти</Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={styles.line}>
+              <Text></Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -168,6 +164,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "red",
+    justifyContent: "flex-end",
+  },
+  imageBg: {
+    resizeMode: "cover",
+    position: "absolute",
+    top: 0,
+    width: "100%",
   },
   image: {
     flex: 1,
