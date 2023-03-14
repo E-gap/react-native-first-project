@@ -9,10 +9,11 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  Button,
 } from "react-native";
 import { useState, useEffect } from "react";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [securePassword, setSecurePassword] = useState(true);
@@ -62,8 +63,12 @@ export default function LoginScreen() {
             }}
           >
             <View style={styles.login}>
-              <Text style={styles.title}>Войти</Text>
+              <Text style={styles.title}>Тест-1</Text>
             </View>
+            <Button
+              title="Go to Jane's profile"
+              onPress={() => navigation.navigate("Test2")}
+            />
             <View>
               <TextInput
                 placeholder="Адрес электронной почты"
@@ -77,7 +82,7 @@ export default function LoginScreen() {
                 onFocus={() => {
                   setIsShowKeyboard(true);
                   setIsEmailFocused(true);
-                  
+                  console.log("gfgggfg");
                 }}
                 onBlur={() => {
                   setIsEmailFocused(false);
@@ -116,7 +121,7 @@ export default function LoginScreen() {
                 style={styles.checkIn}
                 onPress={handleSubmit}
               >
-                <Text style={styles.checkInTitle}>Войти</Text>
+                <Text style={styles.checkInTitle}>Тест-1</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.logIn}>
                 <Text style={styles.logInTitle}>

@@ -62,7 +62,7 @@ export default function LoginScreen() {
             }}
           >
             <View style={styles.login}>
-              <Text style={styles.title}>Войти</Text>
+              <Text style={styles.title}>Тест-2</Text>
             </View>
             <View>
               <TextInput
@@ -77,6 +77,7 @@ export default function LoginScreen() {
                 onFocus={() => {
                   setIsShowKeyboard(true);
                   setIsEmailFocused(true);
+                  console.log("gfgggfg");
                 }}
                 onBlur={() => {
                   setIsEmailFocused(false);
@@ -115,7 +116,7 @@ export default function LoginScreen() {
                 style={styles.checkIn}
                 onPress={handleSubmit}
               >
-                <Text style={styles.checkInTitle}>Войти</Text>
+                <Text style={styles.checkInTitle}>Тест-2</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.logIn}>
                 <Text style={styles.logInTitle}>
