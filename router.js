@@ -1,3 +1,16 @@
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Platform,
+  Image,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Button,
+} from "react-native";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -34,17 +47,35 @@ export const useRoute = (isAuth) => {
     );
   }
   return (
-    <Tab.Navigator screenOptions={{ tabBarShowLabel: true }}>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          paddingTop: 9,
+          paddingLeft: 93,
+          paddingRight: 93,
+        },
+      }}
+    >
       <Tab.Screen
         name="PostsScreen"
         component={PostsScreen}
-        options={{
+        options={({ navigation }) => ({
           headerTitleAlign: "center",
           tabBarShowLabel: false,
           tabBarIcon: ({ focused, size, color }) => {
             return <Feather name="grid" size={size} color={color} />;
           },
-        }}
+          headerRight: () => (
+            <TouchableOpacity style={styles.logOut}>
+              <Feather
+                name="log-out"
+                size={24}
+                color="#BDBDBD"
+                onPress={() => navigation.navigate("CreatePostsScreen")}
+              />
+            </TouchableOpacity>
+          ),
+        })}
       />
       <Tab.Screen
         name="CreatePostsScreen"
@@ -55,6 +86,11 @@ export const useRoute = (isAuth) => {
           tabBarIcon: ({ focused, size, color }) => {
             return <AntDesign name="plus" size={size} color={color} />;
           },
+          tabBarItemStyle: {
+            backgroundColor: "#FF6C00",
+            borderRadius: 20,
+          },
+          tabBarActiveTintColor: "white",
         }}
       />
       <Tab.Screen
@@ -71,3 +107,10 @@ export const useRoute = (isAuth) => {
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  logOut: {
+    borderColor: "red",
+    marginRight: 20,
+  },
+});
