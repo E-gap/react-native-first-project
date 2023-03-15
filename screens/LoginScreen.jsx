@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [securePassword, setSecurePassword] = useState(true);
@@ -77,7 +77,6 @@ export default function LoginScreen() {
                 onFocus={() => {
                   setIsShowKeyboard(true);
                   setIsEmailFocused(true);
-                  
                 }}
                 onBlur={() => {
                   setIsEmailFocused(false);
@@ -118,7 +117,10 @@ export default function LoginScreen() {
               >
                 <Text style={styles.checkInTitle}>Войти</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.logIn}>
+              <TouchableOpacity
+                style={styles.logIn}
+                onPress={() => navigation.navigate("RegistrationScreen")}
+              >
                 <Text style={styles.logInTitle}>
                   Нет аккаунта? Зарегистрироваться
                 </Text>

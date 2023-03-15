@@ -14,7 +14,7 @@ import {
 import { useState, useEffect } from "react";
 import { AntDesign } from "react-native-vector-icons";
 
-export default function RegistrationScreen() {
+export default function RegistrationScreen({ navigation }) {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -146,7 +146,10 @@ export default function RegistrationScreen() {
               >
                 <Text style={styles.checkInTitle}>Зарегистрироваться</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.logIn}>
+              <TouchableOpacity
+                style={styles.logIn}
+                onPress={() => navigation.navigate("LoginScreen")}
+              >
                 <Text style={styles.logInTitle}>Уже есть аккаунт? Войти</Text>
               </TouchableOpacity>
             </View>

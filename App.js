@@ -14,13 +14,27 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen
           options={{ headerShown: false }}
-          name="Test1"
-          component={Test1}
+          name="LoginScreen"
+          component={LoginScreen}
         />
-        <Stack.Screen name="Test2" component={Test2} />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="RegistrationScreen"
+          component={RegistrationScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 
   /*  return <Test1 />; */
+}
+
+{
+  /* <Stack.Screen
+          options={{ headerShown: false }}
+          name="Test1"
+          component={Test1}
+        />
+        <Stack.Screen name="Test2" component={Test2} />
+ */
 }
