@@ -229,5 +229,6 @@ const styles = StyleSheet.create({
     bottom: 8,
     left: "50%",
     transform: [{ translateX: -50 }],
+    borderRadius: 100,
   },
 });
