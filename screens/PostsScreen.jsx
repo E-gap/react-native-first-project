@@ -18,15 +18,20 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const Tab = createBottomTabNavigator();
 
-export default function PostsScreen({ navigation }) {
+export default function PostsScreen({ navigation, route }) {
+  const { userName = "брать с бекенда", userEmail } = route.params;
   return (
     <View style={styles.container}>
-      <View style={styles.login}>
-        <Text style={styles.title}>PostScreens</Text>
+      <View style={styles.item}>
+        <Image
+          style={styles.userFoto}
+          source={require("../assets/images/userFoto.jpg")}
+        />
+        <View style={styles.userInfo}>
+          <Text style={styles.userName}>{userName}</Text>
+          <Text style={styles.userEmail}>{userEmail}</Text>
+        </View>
       </View>
-      <TouchableOpacity style={styles.line}>
-        <Text></Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -34,21 +39,22 @@ export default function PostsScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "red",
-    justifyContent: "center",
-  },
-  login: {
-    paddingLeft: 80,
-    paddingRight: 80,
-    textAlign: "center",
-  },
-  title: {
-    marginBottom: 33,
-    fontSize: 30,
+    backgroundColor: "yellow",
     paddingTop: 32,
-    textAlign: "center",
+    paddingLeft: 16,
   },
-
+  item: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  userName: {
+    fontSize: 13,
+    fontFamily: "Roboto",
+    fontWeight: "700",
+  },
+  userEmail: { fontSize: 11, fontFamily: "Roboto", fontWeight: "400" },
+  userInfo: { marginLeft: 8 },
   line: {
     width: 134,
     height: 5,

@@ -24,9 +24,9 @@ export default function ProfileScreen({ navigation }) {
       <View style={styles.login}>
         <Text style={styles.title}>ProfileScreen</Text>
       </View>
-      <TouchableOpacity style={styles.line}>
+      {/* <TouchableOpacity style={styles.line}>
         <Text></Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }

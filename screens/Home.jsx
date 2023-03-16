@@ -11,6 +11,8 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
+import { useState, useEffect } from "react";
+
 import LoginScreen from "./LoginScreen";
 import RegistrationScreen from "./RegistrationScreen";
 import PostsScreen from "./PostsScreen";
@@ -19,12 +21,15 @@ import ProfileScreen from "./ProfileScreen";
 
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const Tab = createBottomTabNavigator();
 
-export default function Home({ navigation }) {
+export default function Home({ navigation, route }) {
+  const { userName, userEmail } = route.params;
+  const [displayTabBar, setDisplayTabBar] = useState(true);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -32,13 +37,14 @@ export default function Home({ navigation }) {
           paddingTop: 9,
           paddingLeft: 93,
           paddingRight: 93,
+          display: displayTabBar ? "flex" : "none",
         },
       }}
     >
       <Tab.Screen
         name="PostsScreen"
         component={PostsScreen}
-        options={({ navigation }) => ({
+        options={({ navigation, route }) => ({
           headerTitleAlign: "center",
           tabBarShowLabel: false,
           tabBarIcon: ({ focused, size, color }) => {
@@ -58,19 +64,38 @@ export default function Home({ navigation }) {
       />
       <Tab.Screen
         name="CreatePostsScreen"
+        listeners={{
+          tabPress: (e) => {
+            console.log("sdsdsd");
+            setDisplayTabBar(false);
+          },
+        }}
         component={CreatePostsScreen}
-        options={{
+        options={({ navigation }) => ({
           headerTitleAlign: "center",
           tabBarShowLabel: false,
           tabBarIcon: ({ focused, size, color }) => {
             return <AntDesign name="plus" size={size} color={color} />;
           },
+          headerLeft: () => (
+            <TouchableOpacity style={styles.goBack}>
+              <Ionicons
+                name="arrow-back"
+                size={24}
+                color="#BDBDBD"
+                onPress={() => {
+                  navigation.goBack();
+                  setDisplayTabBar(true);
+                }}
+              />
+            </TouchableOpacity>
+          ),
           tabBarItemStyle: {
             backgroundColor: "#FF6C00",
             borderRadius: 20,
           },
           tabBarActiveTintColor: "white",
-        }}
+        })}
       />
       <Tab.Screen
         name="ProfileScreen"
@@ -117,5 +142,8 @@ const styles = StyleSheet.create({
   },
   logOut: {
     marginRight: 20,
+  },
+  goBack: {
+    marginLeft: 20,
   },
 });

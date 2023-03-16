@@ -10,23 +10,103 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-
+import { useState, useEffect } from "react";
 import LoginScreen from "./LoginScreen";
 import RegistrationScreen from "./RegistrationScreen";
+
+import { Feather } from "@expo/vector-icons";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const Tab = createBottomTabNavigator();
 
 export default function CreatePostsScreen({ navigation }) {
+  const [inputName, setInputName] = useState("");
+  const [inputPlace, setInputPlace] = useState("");
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+
+  const backgroundBtnPublish = inputName && inputPlace ? "#FF6C00" : "#E5E5E5";
+  const colorTextBtnPublish = inputName && inputPlace ? "#FFFFFF" : "#BDBDBD";
+
+  const handleSubmit = () => {
+    const data = {
+      inputName,
+      inputPlace,
+    };
+    console.log(data);
+    setInputName("");
+    setInputPlace("");
+  };
+
+  const clearFields = () => {
+    setInputName("");
+    setInputPlace("");
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.login}>
-        <Text style={styles.title}>CreatePost</Text>
+      <View style={styles.form}>
+        <View style={styles.item}>
+          <Image
+            style={styles.postImage}
+            source={require("../assets/images/userFoto.jpg")}
+          />
+          <TouchableOpacity
+            style={styles.loadImage}
+            onPress={() => console.log("load foto")}
+          >
+            <Text style={styles.loadImageText}>Загрузите фото</Text>
+          </TouchableOpacity>
+          <TextInput
+            placeholder="Название"
+            placeholderTextColor="#BDBDBD"
+            style={styles.inputName}
+            value={inputName}
+            onChangeText={(value) => setInputName(value)}
+            onFocus={() => {
+              setIsShowKeyboard(true);
+            }}
+          />
+          <View>
+            <TextInput
+              placeholder="Местность"
+              placeholderTextColor="#BDBDBD"
+              style={styles.inputPlace}
+              value={inputPlace}
+              onChangeText={(value) => setInputPlace(value)}
+              onFocus={() => {
+                setIsShowKeyboard(true);
+              }}
+            />
+            <View style={styles.iconPlace}>
+              <Feather name="map-pin" size={18} color="#BDBDBD" />
+            </View>
+          </View>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={{
+              ...styles.btnPublish,
+              backgroundColor: backgroundBtnPublish,
+            }}
+            onPress={handleSubmit}
+          >
+            <Text
+              style={{ ...styles.checkInTitle, color: colorTextBtnPublish }}
+            >
+              Опубликовать
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <TouchableOpacity style={styles.line}>
-        <Text></Text>
-      </TouchableOpacity>
+      <View style={styles.center}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.btnDelete}
+          onPress={clearFields}
+        >
+          <Feather name="trash-2" size={16} color="#BDBDBD" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -34,29 +114,71 @@ export default function CreatePostsScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "blue",
-    justifyContent: "center",
-  },
-  login: {
-    paddingLeft: 80,
-    paddingRight: 80,
-    textAlign: "center",
-  },
-  title: {
-    marginBottom: 33,
-    fontSize: 30,
+    backgroundColor: "#F6F6F6",
+    paddingLeft: 16,
+    paddingRight: 16,
     paddingTop: 32,
-    textAlign: "center",
   },
-
-  line: {
-    width: 134,
-    height: 5,
-    backgroundColor: "#212121",
+  postImage: {
+    width: "100%",
+    height: 240,
+    marginBottom: 8,
+    borderRadius: 8,
+  },
+  loadImageText: {
+    fontSize: 16,
+    fontWeight: "400",
+    fontFamily: "Roboto",
+    color: "#BDBDBD",
+    marginBottom: 48,
+  },
+  inputName: {
+    fontSize: 16,
+    marginBottom: 32,
+    borderWidth: 1,
+    borderBottomColor: "#E8E8E8",
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    color: "#212121",
+  },
+  inputPlace: {
+    fontSize: 16,
+    marginBottom: 32,
+    borderWidth: 1,
+    borderBottomColor: "#E8E8E8",
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    paddingLeft: 30,
+  },
+  iconPlace: {
     position: "absolute",
-    bottom: 8,
-    left: "50%",
-    transform: [{ translateX: -67 }],
+    top: 5,
+  },
+  btnPublish: {
     borderRadius: 100,
+    paddingTop: 16,
+    paddingBottom: 16,
+  },
+  checkInTitle: {
+    textAlign: "center",
+    fontSize: 16,
+  },
+  btnDelete: {
+    backgroundColor: "#E5E5E5",
+    alignItems: "center",
+    paddingTop: 14,
+    paddingBottom: 14,
+    borderRadius: 20,
+    width: 70,
+  },
+  center: {
+    display: "flex",
+    alignItems: "center",
+    position: "absolute",
+    top: 660,
+    left: "50%",
+    transform: [{ translateX: -20 }],
   },
 });

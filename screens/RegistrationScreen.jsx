@@ -46,7 +46,10 @@ export default function RegistrationScreen({ navigation }) {
     setLogin("");
     setEmail("");
     setPassword("");
-    navigation.navigate("Home");
+    navigation.navigate("Home", {
+      screen: "PostsScreen",
+      params: { userName: login, userEmail: email },
+    });
   };
 
   const clickOnBackground = () => {

@@ -16,6 +16,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const AuthStack = createNativeStackNavigator();
+const MainStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 import RegistrationScreen from "./screens/RegistrationScreen";
@@ -25,12 +26,15 @@ import LoginScreen from "./screens/LoginScreen";
 import PostsScreen from "./screens/PostsScreen";
 import CreatePostsScreen from "./screens/CreatePostsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import Home from "./screens/Home";
+import MapScreen from "./screens/MapScreen";
+import CommentsScreen from "./screens/CommentsScreen";
 
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
 export const useRoute = (isAuth) => {
-  if (!isAuth) {
+  /* if (!isAuth) {
     return (
       <AuthStack.Navigator>
         <AuthStack.Screen
@@ -45,66 +49,35 @@ export const useRoute = (isAuth) => {
         />
       </AuthStack.Navigator>
     );
-  }
+  } */
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: {
-          paddingTop: 9,
-          paddingLeft: 93,
-          paddingRight: 93,
-        },
-      }}
-    >
-      <Tab.Screen
-        name="PostsScreen"
-        component={PostsScreen}
-        options={({ navigation }) => ({
-          headerTitleAlign: "center",
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused, size, color }) => {
-            return <Feather name="grid" size={size} color={color} />;
-          },
-          headerRight: () => (
-            <TouchableOpacity style={styles.logOut}>
-              <Feather
-                name="log-out"
-                size={24}
-                color="#BDBDBD"
-                onPress={() => navigation.navigate("CreatePostsScreen")}
-              />
-            </TouchableOpacity>
-          ),
-        })}
+    <MainStack.Navigator>
+      <MainStack.Screen
+        options={{ headerShown: false }}
+        name="LoginScreen"
+        component={LoginScreen}
       />
-      <Tab.Screen
-        name="CreatePostsScreen"
-        component={CreatePostsScreen}
-        options={{
-          headerTitleAlign: "center",
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused, size, color }) => {
-            return <AntDesign name="plus" size={size} color={color} />;
-          },
-          tabBarItemStyle: {
-            backgroundColor: "#FF6C00",
-            borderRadius: 20,
-          },
-          tabBarActiveTintColor: "white",
-        }}
+      <MainStack.Screen
+        options={{ headerShown: false }}
+        name="RegistrationScreen"
+        component={RegistrationScreen}
       />
-      <Tab.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
-        options={{
-          headerTitleAlign: "center",
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused, size, color }) => {
-            return <Feather name="user" size={size} color={color} />;
-          },
-        }}
+      <MainStack.Screen
+        options={{ headerShown: false, headerTitleAlign: "center" }}
+        name="Home"
+        component={Home}
       />
-    </Tab.Navigator>
+      <MainStack.Screen
+        options={{ headerTitleAlign: "center" }}
+        name="MapScreen"
+        component={MapScreen}
+      />
+      <MainStack.Screen
+        options={{ headerTitleAlign: "center" }}
+        name="CommentsScreen"
+        component={CommentsScreen}
+      />
+    </MainStack.Navigator>
   );
 };
 
