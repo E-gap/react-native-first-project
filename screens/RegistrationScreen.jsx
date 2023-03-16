@@ -46,6 +46,7 @@ export default function RegistrationScreen({ navigation }) {
     setLogin("");
     setEmail("");
     setPassword("");
+    navigation.navigate("Home");
   };
 
   const clickOnBackground = () => {

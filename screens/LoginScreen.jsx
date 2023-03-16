@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 
+//import Home from "./Home";
+
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,6 +42,7 @@ export default function LoginScreen({ navigation }) {
     console.log(data);
     setEmail("");
     setPassword("");
+    navigation.navigate("Home");
   };
 
   const clickOnBackground = () => {
