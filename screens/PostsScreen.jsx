@@ -1,20 +1,7 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Platform,
-  Image,
-  KeyboardAvoidingView,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
-
-import LoginScreen from "./LoginScreen";
-import RegistrationScreen from "./RegistrationScreen";
-
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+import { Feather } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +9,7 @@ export default function PostsScreen({ navigation, route }) {
   const { userName = "брать с бекенда", userEmail } = route.params;
   return (
     <View style={styles.container}>
-      <View style={styles.item}>
+      <View style={styles.user}>
         <Image
           style={styles.userFoto}
           source={require("../assets/images/userFoto.jpg")}
@@ -32,6 +19,28 @@ export default function PostsScreen({ navigation, route }) {
           <Text style={styles.userEmail}>{userEmail}</Text>
         </View>
       </View>
+
+      <View style={styles.postCard}>
+        <Image
+          style={styles.postImage}
+          source={require("../assets/images/userFoto.jpg")}
+        />
+        <Text style={styles.postName}>Название поста</Text>
+        <View style={styles.postInfo}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("CommentsScreen")}
+          >
+            <View style={styles.postComments}>
+              <Feather name="message-circle" size={18} color="#BDBDBD" />
+              <Text style={styles.quantityComments}>0</Text>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.postPlace}>
+            <Feather name="map-pin" size={18} color="#BDBDBD" />
+            <Text style={styles.placeName}>Name place</Text>
+          </View>
+        </View>
+      </View>
     </View>
   );
 }
@@ -39,30 +48,73 @@ export default function PostsScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "yellow",
+    backgroundColor: "#F6F6F6",
     paddingTop: 32,
+    paddingRight: 16,
     paddingLeft: 16,
   },
-  item: {
+  user: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 32,
   },
   userName: {
     fontSize: 13,
     fontFamily: "Roboto",
     fontWeight: "700",
   },
-  userEmail: { fontSize: 11, fontFamily: "Roboto", fontWeight: "400" },
-  userInfo: { marginLeft: 8 },
-  line: {
-    width: 134,
-    height: 5,
-    backgroundColor: "#212121",
-    position: "absolute",
-    bottom: 8,
-    left: "50%",
-    transform: [{ translateX: -67 }],
-    borderRadius: 100,
+  userEmail: {
+    fontSize: 11,
+    fontFamily: "Roboto",
+    fontWeight: "400",
+  },
+  userInfo: {
+    marginLeft: 8,
+  },
+  postCard: {
+    marginBottom: 34,
+  },
+  postImage: {
+    width: "100%",
+    height: 240,
+    marginBottom: 8,
+    borderRadius: 8,
+  },
+  postName: {
+    fontSize: 16,
+    fontWeight: "500",
+    fontFamily: "Roboto",
+    color: "#212121",
+    marginBottom: 11,
+  },
+  postInfo: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  postComments: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  quantityComments: {
+    fontSize: 16,
+    fontWeight: "400",
+    fontFamily: "Roboto",
+    color: "#BDBDBD",
+    marginLeft: 9,
+  },
+  placeName: {
+    fontSize: 16,
+    fontWeight: "400",
+    fontFamily: "Roboto",
+    color: "#212121",
+    marginLeft: 8,
+  },
+  postPlace: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
 });

@@ -130,9 +130,6 @@ export default function LoginScreen({ navigation }) {
                 </Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.line}>
-              <Text></Text>
-            </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
       </View>
@@ -224,15 +221,5 @@ const styles = StyleSheet.create({
   },
   showPassword: {
     color: "#1B4371",
-  },
-  line: {
-    width: 135,
-    height: 5,
-    backgroundColor: "#212121",
-    position: "absolute",
-    bottom: 8,
-    left: "50%",
-    transform: [{ translateX: -50 }],
-    borderRadius: 100,
   },
 });

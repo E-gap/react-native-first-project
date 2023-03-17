@@ -4,19 +4,12 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Platform,
   Image,
-  KeyboardAvoidingView,
-  Keyboard,
-  TouchableWithoutFeedback,
 } from "react-native";
-import { useState, useEffect } from "react";
-import LoginScreen from "./LoginScreen";
-import RegistrationScreen from "./RegistrationScreen";
+import { useState } from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { Feather } from "@expo/vector-icons";
-
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const Tab = createBottomTabNavigator();
 

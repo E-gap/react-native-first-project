@@ -21,12 +21,37 @@ const Tab = createBottomTabNavigator();
 export default function CommentsScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <View style={styles.login}>
-        <Text style={styles.title}>CommentsScreen</Text>
+      <Image
+        style={styles.postImage}
+        source={require("../assets/images/userFoto.jpg")}
+      />
+      <View style={styles.postCommentOdd}>
+        <Image
+          style={{ width: 28, height: 28 }}
+          source={require("../assets/images/Ellipse.png")}
+        />
+        <View style={styles.commentOdd}>
+          <Text style={styles.commentTextOdd}>Text comment</Text>
+          <Text style={styles.commentDateOdd}>Comment Date</Text>
+        </View>
       </View>
-      <TouchableOpacity style={styles.line}>
-        <Text></Text>
-      </TouchableOpacity>
+      <View style={styles.postCommentEven}>
+        <Image
+          style={{ width: 28, height: 28 }}
+          source={require("../assets/images/Ellipse.png")}
+        />
+        <View style={styles.commentEven}>
+          <Text style={styles.commentTextEven}>Text comment</Text>
+          <Text style={styles.commentDateEven}>Comment Date</Text>
+        </View>
+      </View>
+      <View style={styles.newComment}>
+        <TextInput
+          style={styles.newCommentText}
+          placeholder="Комментировать..."
+          placeholderTextColor="#BDBDBD"
+        ></TextInput>
+      </View>
     </View>
   );
 }
@@ -34,29 +59,78 @@ export default function CommentsScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "yellow",
-    justifyContent: "center",
-  },
-  login: {
-    paddingLeft: 80,
-    paddingRight: 80,
-    textAlign: "center",
-  },
-  title: {
-    marginBottom: 33,
-    fontSize: 30,
+    backgroundColor: "#F6F6F6",
     paddingTop: 32,
-    textAlign: "center",
+    paddingRight: 16,
+    paddingLeft: 16,
   },
-
-  line: {
-    width: 134,
-    height: 5,
-    backgroundColor: "#212121",
-    position: "absolute",
-    bottom: 8,
-    left: "50%",
-    transform: [{ translateX: -67 }],
+  postImage: {
+    width: "100%",
+    height: 240,
+    marginBottom: 32,
+    borderRadius: 8,
+  },
+  postCommentOdd: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 24,
+  },
+  commentOdd: {
+    width: 299,
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
+    borderRadius: 6,
+    borderTopLeftRadius: 0,
+    padding: 16,
+  },
+  commentTextOdd: {
+    fontSize: 13,
+    fontFamily: "Roboto",
+    fontWeight: "400",
+    color: "#212121",
+    marginBottom: 8,
+  },
+  commentDateOdd: {
+    fontSize: 13,
+    fontFamily: "Roboto",
+    fontWeight: "400",
+    color: "#BDBDBD",
+    textAlign: "right",
+  },
+  postCommentEven: {
+    display: "flex",
+    flexDirection: "row-reverse",
+    justifyContent: "space-between",
+    marginBottom: 24,
+  },
+  commentEven: {
+    width: 299,
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
+    borderRadius: 6,
+    borderTopRightRadius: 0,
+    padding: 16,
+  },
+  commentTextEven: {
+    fontSize: 13,
+    fontFamily: "Roboto",
+    fontWeight: "400",
+    color: "#212121",
+    marginBottom: 8,
+  },
+  commentDateEven: {
+    fontSize: 13,
+    fontFamily: "Roboto",
+    fontWeight: "400",
+    color: "#BDBDBD",
+  },
+  newComment: {
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
     borderRadius: 100,
+    padding: 16,
+  },
+  newCommentText: {
+    fontWeight: "500",
+    fontSize: 16,
+    fontFamily: "Roboto",
   },
 });
