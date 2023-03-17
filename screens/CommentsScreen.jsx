@@ -11,6 +11,10 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
+import { useState } from "react";
+
+import { AntDesign } from "@expo/vector-icons";
+
 import LoginScreen from "./LoginScreen";
 import RegistrationScreen from "./RegistrationScreen";
 
@@ -19,40 +23,76 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 
 export default function CommentsScreen({ navigation }) {
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [textNewComment, setTextNewComment] = useState("");
+
+  const clickOnBackground = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+  };
+
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.postImage}
-        source={require("../assets/images/userFoto.jpg")}
-      />
-      <View style={styles.postCommentOdd}>
+    <TouchableWithoutFeedback onPress={clickOnBackground}>
+      <View style={styles.container}>
         <Image
-          style={{ width: 28, height: 28 }}
-          source={require("../assets/images/Ellipse.png")}
+          style={styles.postImage}
+          source={require("../assets/images/userFoto.jpg")}
         />
-        <View style={styles.commentOdd}>
-          <Text style={styles.commentTextOdd}>Text comment</Text>
-          <Text style={styles.commentDateOdd}>Comment Date</Text>
+        <View
+          style={{
+            ...styles.allComments,
+            display: isShowKeyboard ? "none" : "flex",
+          }}
+        >
+          <View style={styles.postCommentOdd}>
+            <Image
+              style={{ width: 28, height: 28 }}
+              source={require("../assets/images/Ellipse.png")}
+            />
+            <View style={styles.commentOdd}>
+              <Text style={styles.commentTextOdd}>Text comment</Text>
+              <Text style={styles.commentDateOdd}>Comment Date</Text>
+            </View>
+          </View>
+          <View style={styles.postCommentEven}>
+            <Image
+              style={{ width: 28, height: 28 }}
+              source={require("../assets/images/Ellipse.png")}
+            />
+            <View style={styles.commentEven}>
+              <Text style={styles.commentTextEven}>Text comment</Text>
+              <Text style={styles.commentDateEven}>Comment Date</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.newComment}>
+          <TextInput
+            style={styles.newCommentText}
+            placeholder="Комментировать..."
+            placeholderTextColor="#BDBDBD"
+            value={textNewComment}
+            onChangeText={(value) => setTextNewComment(value)}
+            onFocus={() => {
+              setIsShowKeyboard(true);
+              console.log("клавиатура");
+            }}
+            onBlur={() => {
+              setIsShowKeyboard(false);
+            }}
+          />
+          <TouchableOpacity
+            style={styles.btnAddComment}
+            onPress={() => {
+              setIsShowKeyboard(false);
+              setTextNewComment("");
+              Keyboard.dismiss();
+            }}
+          >
+            <AntDesign name="arrowup" size={24} color="#FFFFFF" />
+          </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.postCommentEven}>
-        <Image
-          style={{ width: 28, height: 28 }}
-          source={require("../assets/images/Ellipse.png")}
-        />
-        <View style={styles.commentEven}>
-          <Text style={styles.commentTextEven}>Text comment</Text>
-          <Text style={styles.commentDateEven}>Comment Date</Text>
-        </View>
-      </View>
-      <View style={styles.newComment}>
-        <TextInput
-          style={styles.newCommentText}
-          placeholder="Комментировать..."
-          placeholderTextColor="#BDBDBD"
-        ></TextInput>
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -63,6 +103,9 @@ const styles = StyleSheet.create({
     paddingTop: 32,
     paddingRight: 16,
     paddingLeft: 16,
+  },
+  screen: {
+    marginBottom: 1000,
   },
   postImage: {
     width: "100%",
@@ -127,10 +170,24 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.03)",
     borderRadius: 100,
     padding: 16,
+    position: "absolute",
+    bottom: 10,
+    transform: [{ translateX: 16 }],
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   newCommentText: {
     fontWeight: "500",
     fontSize: 16,
     fontFamily: "Roboto",
+  },
+  btnAddComment: {
+    backgroundColor: "orange",
+    width: 34,
+    height: 34,
+    borderRadius: 50,
+    padding: 5,
   },
 });
