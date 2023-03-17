@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-
 import { AntDesign } from "react-native-vector-icons";
 import { Feather } from "@expo/vector-icons";
 

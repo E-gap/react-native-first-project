@@ -4,9 +4,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Platform,
   Image,
-  KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -14,13 +12,6 @@ import {
 import { useState } from "react";
 
 import { AntDesign } from "@expo/vector-icons";
-
-import LoginScreen from "./LoginScreen";
-import RegistrationScreen from "./RegistrationScreen";
-
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-const Tab = createBottomTabNavigator();
 
 export default function CommentsScreen({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);

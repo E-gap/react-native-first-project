@@ -7,16 +7,12 @@ import {
   Image,
 } from "react-native";
 import { useState } from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { Feather } from "@expo/vector-icons";
-
-const Tab = createBottomTabNavigator();
 
 export default function CreatePostsScreen({ navigation }) {
   const [inputName, setInputName] = useState("");
   const [inputPlace, setInputPlace] = useState("");
-  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const backgroundBtnPublish = inputName && inputPlace ? "#FF6C00" : "#E5E5E5";
   const colorTextBtnPublish = inputName && inputPlace ? "#FFFFFF" : "#BDBDBD";
@@ -56,9 +52,6 @@ export default function CreatePostsScreen({ navigation }) {
             style={styles.inputName}
             value={inputName}
             onChangeText={(value) => setInputName(value)}
-            onFocus={() => {
-              setIsShowKeyboard(true);
-            }}
           />
           <View>
             <TextInput
@@ -67,9 +60,6 @@ export default function CreatePostsScreen({ navigation }) {
               style={styles.inputPlace}
               value={inputPlace}
               onChangeText={(value) => setInputPlace(value)}
-              onFocus={() => {
-                setIsShowKeyboard(true);
-              }}
             />
             <View style={styles.iconPlace}>
               <Feather name="map-pin" size={18} color="#BDBDBD" />

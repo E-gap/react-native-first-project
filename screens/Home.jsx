@@ -1,20 +1,7 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Platform,
-  Image,
-  KeyboardAvoidingView,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-import LoginScreen from "./LoginScreen";
-import RegistrationScreen from "./RegistrationScreen";
 import PostsScreen from "./PostsScreen";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
@@ -44,7 +31,7 @@ export default function Home({ navigation, route }) {
       <Tab.Screen
         name="PostsScreen"
         component={PostsScreen}
-        options={({ navigation, route }) => ({
+        options={({ navigation }) => ({
           headerTitleAlign: "center",
           tabBarShowLabel: false,
           tabBarIcon: ({ focused, size, color }) => {
@@ -74,7 +61,7 @@ export default function Home({ navigation, route }) {
         options={({ navigation }) => ({
           headerTitleAlign: "center",
           tabBarShowLabel: false,
-          tabBarIcon: ({ focused, size, color }) => {
+          tabBarIcon: ({ size, color }) => {
             return <AntDesign name="plus" size={size} color={color} />;
           },
           headerLeft: () => (

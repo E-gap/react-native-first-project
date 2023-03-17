@@ -3,8 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { Feather } from "@expo/vector-icons";
 
-const Tab = createBottomTabNavigator();
-
 export default function PostsScreen({ navigation, route }) {
   const { userName = "брать с бекенда", userEmail } = route.params;
   return (

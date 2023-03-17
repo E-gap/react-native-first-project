@@ -24,9 +24,6 @@ export default function MapScreen({ navigation }) {
       <View style={styles.login}>
         <Text style={styles.title}>MapScreen</Text>
       </View>
-      <TouchableOpacity style={styles.line}>
-        <Text></Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -47,16 +44,5 @@ const styles = StyleSheet.create({
     fontSize: 30,
     paddingTop: 32,
     textAlign: "center",
-  },
-
-  line: {
-    width: 134,
-    height: 5,
-    backgroundColor: "#212121",
-    position: "absolute",
-    bottom: 8,
-    left: "50%",
-    transform: [{ translateX: -67 }],
-    borderRadius: 100,
   },
 });
