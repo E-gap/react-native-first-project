@@ -53,7 +53,6 @@ export default function Home({ navigation, route }) {
         name="CreatePostsScreen"
         listeners={{
           tabPress: (e) => {
-            console.log("sdsdsd");
             setDisplayTabBar(false);
           },
         }}
