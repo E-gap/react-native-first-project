@@ -45,20 +45,19 @@ export default function CreatePostsScreen({ navigation }) {
 
   const takeFoto = async () => {
     const foto = await cameraRef.takePictureAsync();
-    console.log(foto.uri);
     setFotoUri(foto.uri);
   };
 
   const editFoto = () => {
-    setFotoUri("edit");
+    setFotoUri("none");
   };
 
   const backgroundBtnPublish =
-    inputName && inputPlace && fotoUri && fotoUri !== "edit"
+    inputName && inputPlace && fotoUri && fotoUri !== "none"
       ? "#FF6C00"
       : "#E5E5E5";
   const colorTextBtnPublish =
-    inputName && inputPlace && fotoUri && fotoUri !== "edit"
+    inputName && inputPlace && fotoUri && fotoUri !== "none"
       ? "#FFFFFF"
       : "#BDBDBD";
 
@@ -75,6 +74,7 @@ export default function CreatePostsScreen({ navigation }) {
   const clearFields = () => {
     setInputName("");
     setInputPlace("");
+    setFotoUri("none");
   };
 
   return (
@@ -89,11 +89,17 @@ export default function CreatePostsScreen({ navigation }) {
           <TouchableOpacity style={styles.button} onPress={takeFoto}>
             <FontAwesome5 name="camera" size={18} color="#BDBDBD" />
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonFlipCamera}
+            onPress={toggleCameraType}
+          >
+            <Text style={styles.textFlipCamera}>FLIP CAMERA</Text>
+          </TouchableOpacity>
         </Camera>
       )}
       <View style={styles.form}>
         <View style={styles.item}>
-          {fotoUri && fotoUri !== "edit" ? (
+          {fotoUri && fotoUri !== "none" ? (
             <TouchableOpacity style={styles.loadImage} onPress={editFoto}>
               <Text style={styles.loadImageText}>Редактировать фото</Text>
             </TouchableOpacity>
@@ -186,6 +192,11 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
   },
+  buttonFlipCamera: {
+    position: "absolute",
+    bottom: 10,
+  },
+  textFlipCamera: { color: "white" },
   loadImageText: {
     fontSize: 16,
     fontWeight: "400",

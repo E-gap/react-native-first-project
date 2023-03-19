@@ -49,8 +49,18 @@ export default function CreatePostsScreen({ navigation }) {
     setFotoUri(foto.uri);
   };
 
-  const backgroundBtnPublish = inputName && inputPlace ? "#FF6C00" : "#E5E5E5";
-  const colorTextBtnPublish = inputName && inputPlace ? "#FFFFFF" : "#BDBDBD";
+  const editFoto = () => {
+    setFotoUri("edit");
+  };
+
+  const backgroundBtnPublish =
+    inputName && inputPlace && fotoUri && fotoUri !== "edit"
+      ? "#FF6C00"
+      : "#E5E5E5";
+  const colorTextBtnPublish =
+    inputName && inputPlace && fotoUri && fotoUri !== "edit"
+      ? "#FFFFFF"
+      : "#BDBDBD";
 
   const handleSubmit = () => {
     const data = {
@@ -69,34 +79,27 @@ export default function CreatePostsScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type} /* ref={setCameraRef} */>
-        {fotoUri && (
-          <View style={styles.fotoContainer}>
-            <Image source={{ uri: fotoUri }} style={styles.foto} />
-          </View>
-        )}
-        <TouchableOpacity style={styles.button} onPress={takeFoto}>
-          <FontAwesome5 name="camera" size={18} color="#BDBDBD" />
-        </TouchableOpacity>
-      </Camera>
+      {permission.granted && (
+        <Camera style={styles.camera} type={type} ref={setCameraRef}>
+          {fotoUri && (
+            <View style={styles.fotoContainer}>
+              <Image source={{ uri: fotoUri }} style={styles.foto} />
+            </View>
+          )}
+          <TouchableOpacity style={styles.button} onPress={takeFoto}>
+            <FontAwesome5 name="camera" size={18} color="#BDBDBD" />
+          </TouchableOpacity>
+        </Camera>
+      )}
       <View style={styles.form}>
         <View style={styles.item}>
-          {!fotoUri ? (
-            <TouchableOpacity style={styles.loadImage}>
-              <Text style={styles.loadImageText}>Загрузите фото</Text>
+          {fotoUri && fotoUri !== "edit" ? (
+            <TouchableOpacity style={styles.loadImage} onPress={editFoto}>
+              <Text style={styles.loadImageText}>Редактировать фото</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity
-              style={styles.loadImage}
-              onPress={() => {
-                console.log(permission);
-                setFotoUri("");
-                console.log(fotoUri);
-                /* Camera.getCameraPermissionsAsync();
-                Camera.requestCameraPermissionsAsync(); */
-              }}
-            >
-              <Text style={styles.loadImageText}>Редактировать фото</Text>
+            <TouchableOpacity style={styles.loadImage}>
+              <Text style={styles.loadImageText}>Загрузите фото</Text>
             </TouchableOpacity>
           )}
           <TextInput
