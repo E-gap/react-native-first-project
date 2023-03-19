@@ -17,6 +17,7 @@ const Tab = createBottomTabNavigator();
 export default function Home({ navigation, route }) {
   const { userName, userEmail } = route.params;
   const [displayTabBar, setDisplayTabBar] = useState(true);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -53,7 +54,7 @@ export default function Home({ navigation, route }) {
         name="CreatePostsScreen"
         listeners={{
           tabPress: (e) => {
-            setDisplayTabBar(false);
+            setDisplayTabBar(true);
           },
         }}
         component={CreatePostsScreen}

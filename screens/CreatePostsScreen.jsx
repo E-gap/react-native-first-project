@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Button,
 } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
@@ -62,15 +63,14 @@ export default function CreatePostsScreen({ navigation }) {
       : "#BDBDBD";
 
   const publishPost = () => {
-    const data = {
+    const newPost = {
       inputName,
       inputPlace,
       fotoUri,
     };
-    console.log(data);
     setInputName("");
     setInputPlace("");
-    navigation.navigate("PostsScreen", data)
+    navigation.navigate("PostsScreen", newPost);
   };
 
   const clearFields = () => {

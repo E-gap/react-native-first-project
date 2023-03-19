@@ -61,14 +61,16 @@ export default function CreatePostsScreen({ navigation }) {
       ? "#FFFFFF"
       : "#BDBDBD";
 
-  const handleSubmit = () => {
+  const publishPost = () => {
     const data = {
       inputName,
       inputPlace,
+      fotoUri,
     };
     console.log(data);
     setInputName("");
     setInputPlace("");
+    navigation.navigate("PostsScreen", data);
   };
 
   const clearFields = () => {
@@ -133,7 +135,7 @@ export default function CreatePostsScreen({ navigation }) {
               ...styles.btnPublish,
               backgroundColor: backgroundBtnPublish,
             }}
-            onPress={handleSubmit}
+            onPress={publishPost}
           >
             <Text
               style={{ ...styles.checkInTitle, color: colorTextBtnPublish }}

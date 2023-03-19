@@ -1,12 +1,27 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  SafeAreaView,
+} from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { Feather } from "@expo/vector-icons";
+import { useState, useEffect } from "react";
 
 export default function PostsScreen({ navigation, route }) {
-  //const { userName = "брать с бекенда", userEmail } = route.params;
-  const data = route.params;
-  console.log(data);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    if (!route.params) {
+      return;
+    }
+    setPosts((prevState) => [...prevState, route.params]);
+  }, [route.params]);
+
   return (
     <View style={styles.container}>
       <View style={styles.user}>
@@ -46,6 +61,10 @@ export default function PostsScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  postContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
   container: {
     flex: 1,
     backgroundColor: "#F6F6F6",
@@ -118,3 +137,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+{
+  /* <View style={styles.postCard}>
+        <Image
+          style={styles.postImage}
+          source={require("../assets/images/userFoto.jpg")}
+        />
+        <Text style={styles.postName}>Название поста</Text>
+        <View style={styles.postInfo}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("CommentsScreen")}
+          >
+            <View style={styles.postComments}>
+              <Feather name="message-circle" size={18} color="#BDBDBD" />
+              <Text style={styles.quantityComments}>0</Text>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.postPlace}>
+            <Feather name="map-pin" size={18} color="#BDBDBD" />
+            <Text style={styles.placeName}>Name place</Text>
+          </View>
+        </View>
+      </View> */
+}
