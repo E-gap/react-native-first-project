@@ -45,20 +45,19 @@ export default function CreatePostsScreen({ navigation }) {
 
   const takeFoto = async () => {
     const foto = await cameraRef.takePictureAsync();
-    console.log(foto.uri);
     setFotoUri(foto.uri);
   };
 
   const editFoto = () => {
-    setFotoUri("edit");
+    setFotoUri("none");
   };
 
   const backgroundBtnPublish =
-    inputName && inputPlace && fotoUri && fotoUri !== "edit"
+    inputName && inputPlace && fotoUri && fotoUri !== "none"
       ? "#FF6C00"
       : "#E5E5E5";
   const colorTextBtnPublish =
-    inputName && inputPlace && fotoUri && fotoUri !== "edit"
+    inputName && inputPlace && fotoUri && fotoUri !== "none"
       ? "#FFFFFF"
       : "#BDBDBD";
 
@@ -75,6 +74,7 @@ export default function CreatePostsScreen({ navigation }) {
   const clearFields = () => {
     setInputName("");
     setInputPlace("");
+    setFotoUri("none");
   };
 
   return (
@@ -89,11 +89,17 @@ export default function CreatePostsScreen({ navigation }) {
           <TouchableOpacity style={styles.button} onPress={takeFoto}>
             <FontAwesome5 name="camera" size={18} color="#BDBDBD" />
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonFlipCamera}
+            onPress={toggleCameraType}
+          >
+            <Text style={styles.textFlipCamera}>FLIP CAMERA</Text>
+          </TouchableOpacity>
         </Camera>
       )}
       <View style={styles.form}>
         <View style={styles.item}>
-          {fotoUri && fotoUri !== "edit" ? (
+          {fotoUri && fotoUri !== "none" ? (
             <TouchableOpacity style={styles.loadImage} onPress={editFoto}>
               <Text style={styles.loadImageText}>Редактировать фото</Text>
             </TouchableOpacity>
@@ -186,6 +192,11 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
   },
+  buttonFlipCamera: {
+    position: "absolute",
+    bottom: 10,
+  },
+  textFlipCamera: { color: "white" },
   loadImageText: {
     fontSize: 16,
     fontWeight: "400",
@@ -243,59 +254,3 @@ const styles = StyleSheet.create({
     transform: [{ translateX: -20 }],
   },
 });
-
-// до камеры
-{
-  /* <View style={styles.form}>
-        <View style={styles.item}>          
-          <TouchableOpacity
-            style={styles.loadImage}
-            onPress={() => console.log("load foto")}
-          >
-            <Text style={styles.loadImageText}>Загрузите фото</Text>
-          </TouchableOpacity>
-          <TextInput
-            placeholder="Название"
-            placeholderTextColor="#BDBDBD"
-            style={styles.inputName}
-            value={inputName}
-            onChangeText={(value) => setInputName(value)}
-          />
-          <View>
-            <TextInput
-              placeholder="Местность"
-              placeholderTextColor="#BDBDBD"
-              style={styles.inputPlace}
-              value={inputPlace}
-              onChangeText={(value) => setInputPlace(value)}
-            />
-            <View style={styles.iconPlace}>
-              <Feather name="map-pin" size={18} color="#BDBDBD" />
-            </View>
-          </View>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{
-              ...styles.btnPublish,
-              backgroundColor: backgroundBtnPublish,
-            }}
-            onPress={handleSubmit}
-          >
-            <Text
-              style={{ ...styles.checkInTitle, color: colorTextBtnPublish }}
-            >
-              Опубликовать
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.center}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.btnDelete}
-          onPress={clearFields}
-        >
-          <Feather name="trash-2" size={16} color="#BDBDBD" />
-        </TouchableOpacity>
-      </View> */
-}

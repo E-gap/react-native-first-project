@@ -61,14 +61,16 @@ export default function CreatePostsScreen({ navigation }) {
       ? "#FFFFFF"
       : "#BDBDBD";
 
-  const handleSubmit = () => {
+  const publishPost = () => {
     const data = {
       inputName,
       inputPlace,
+      fotoUri,
     };
     console.log(data);
     setInputName("");
     setInputPlace("");
+    navigation.navigate("PostsScreen", data)
   };
 
   const clearFields = () => {
@@ -133,7 +135,7 @@ export default function CreatePostsScreen({ navigation }) {
               ...styles.btnPublish,
               backgroundColor: backgroundBtnPublish,
             }}
-            onPress={handleSubmit}
+            onPress={publishPost}
           >
             <Text
               style={{ ...styles.checkInTitle, color: colorTextBtnPublish }}
@@ -254,59 +256,3 @@ const styles = StyleSheet.create({
     transform: [{ translateX: -20 }],
   },
 });
-
-// до камеры
-{
-  /* <View style={styles.form}>
-        <View style={styles.item}>          
-          <TouchableOpacity
-            style={styles.loadImage}
-            onPress={() => console.log("load foto")}
-          >
-            <Text style={styles.loadImageText}>Загрузите фото</Text>
-          </TouchableOpacity>
-          <TextInput
-            placeholder="Название"
-            placeholderTextColor="#BDBDBD"
-            style={styles.inputName}
-            value={inputName}
-            onChangeText={(value) => setInputName(value)}
-          />
-          <View>
-            <TextInput
-              placeholder="Местность"
-              placeholderTextColor="#BDBDBD"
-              style={styles.inputPlace}
-              value={inputPlace}
-              onChangeText={(value) => setInputPlace(value)}
-            />
-            <View style={styles.iconPlace}>
-              <Feather name="map-pin" size={18} color="#BDBDBD" />
-            </View>
-          </View>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{
-              ...styles.btnPublish,
-              backgroundColor: backgroundBtnPublish,
-            }}
-            onPress={handleSubmit}
-          >
-            <Text
-              style={{ ...styles.checkInTitle, color: colorTextBtnPublish }}
-            >
-              Опубликовать
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.center}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.btnDelete}
-          onPress={clearFields}
-        >
-          <Feather name="trash-2" size={16} color="#BDBDBD" />
-        </TouchableOpacity>
-      </View> */
-}

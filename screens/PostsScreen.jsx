@@ -4,7 +4,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 
 export default function PostsScreen({ navigation, route }) {
-  const { userName = "брать с бекенда", userEmail } = route.params;
+  //const { userName = "брать с бекенда", userEmail } = route.params;
+  const data = route.params;
+  console.log(data);
   return (
     <View style={styles.container}>
       <View style={styles.user}>
@@ -13,8 +15,8 @@ export default function PostsScreen({ navigation, route }) {
           source={require("../assets/images/userFoto.jpg")}
         />
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>{userName}</Text>
-          <Text style={styles.userEmail}>{userEmail}</Text>
+          <Text style={styles.userName}>UserName</Text>
+          <Text style={styles.userEmail}>UserEmail</Text>
         </View>
       </View>
 
