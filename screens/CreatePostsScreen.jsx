@@ -1,5 +1,6 @@
 import { Camera, CameraType } from "expo-camera";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import * as Location from "expo-location";
 import {
   StyleSheet,
   Text,
@@ -14,14 +15,32 @@ import { Feather } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function CreatePostsScreen({ navigation }) {
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [inputName, setInputName] = useState("");
   const [inputPlace, setInputPlace] = useState("");
   const [cameraRef, setCameraRef] = useState(null);
   const [fotoUri, setFotoUri] = useState("");
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
-
   const [isCamera, setIsCamera] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+    })();
+  }, []);
+
+  let text = "Waiting..";
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
 
   if (!permission) {
     // Camera permissions are still loading
@@ -48,6 +67,9 @@ export default function CreatePostsScreen({ navigation }) {
 
   const takeFoto = async () => {
     const foto = await cameraRef.takePictureAsync();
+    const location = await Location.getCurrentPositionAsync({});
+    console.log("широта", location.coords.latitude);
+    console.log("долгота", location.coords.longitude);
     setFotoUri(foto.uri);
   };
 
