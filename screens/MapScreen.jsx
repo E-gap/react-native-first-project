@@ -11,19 +11,22 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import LoginScreen from "./LoginScreen";
-import RegistrationScreen from "./RegistrationScreen";
-
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-const Tab = createBottomTabNavigator();
+import MapView, { Marker } from "react-native-maps";
 
 export default function MapScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <View style={styles.login}>
-        <Text style={styles.title}>MapScreen</Text>
-      </View>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: 50.4364632,
+          longitude: 30.6157721,
+          latitudeDelta: 0.009,
+          longitudeDelta: 0.009,
+        }}
+      >
+        <Marker coordinate={{ latitude: 50.4364632, longitude: 30.6157721 }} />
+      </MapView>
     </View>
   );
 }
@@ -31,18 +34,10 @@ export default function MapScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "red",
     justifyContent: "center",
   },
-  login: {
-    paddingLeft: 80,
-    paddingRight: 80,
-    textAlign: "center",
-  },
-  title: {
-    marginBottom: 33,
-    fontSize: 30,
-    paddingTop: 32,
-    textAlign: "center",
+  map: {
+    width: "100%",
+    height: "100%",
   },
 });

@@ -49,10 +49,14 @@ export default function PostsScreen({ navigation, route }) {
                   <Text style={styles.quantityComments}>0</Text>
                 </View>
               </TouchableOpacity>
-              <View style={styles.postPlace}>
-                <Feather name="map-pin" size={18} color="#BDBDBD" />
-                <Text style={styles.placeName}>{item.inputPlace}</Text>
-              </View>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("MapScreen")}
+              >
+                <View style={styles.postPlace}>
+                  <Feather name="map-pin" size={18} color="#BDBDBD" />
+                  <Text style={styles.placeName}>{item.inputPlace}</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
         )}
