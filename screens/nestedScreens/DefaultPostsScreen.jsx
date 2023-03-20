@@ -6,12 +6,11 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { Feather } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 
-export default function PostsScreen({ navigation, route }) {
+export default function DefaultPostsScreen({ navigation, route }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -26,7 +25,7 @@ export default function PostsScreen({ navigation, route }) {
       <View style={styles.user}>
         <Image
           style={styles.userFoto}
-          source={require("../assets/images/userFoto.jpg")}
+          source={require("../../assets/images/userFoto.jpg")}
         />
         <View style={styles.userInfo}>
           <Text style={styles.userName}>UserName</Text>
@@ -49,10 +48,14 @@ export default function PostsScreen({ navigation, route }) {
                   <Text style={styles.quantityComments}>0</Text>
                 </View>
               </TouchableOpacity>
-              <View style={styles.postPlace}>
-                <Feather name="map-pin" size={18} color="#BDBDBD" />
-                <Text style={styles.placeName}>{item.inputPlace}</Text>
-              </View>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("MapScreen")}
+              >
+                <View style={styles.postPlace}>
+                  <Feather name="map-pin" size={18} color="#BDBDBD" />
+                  <Text style={styles.placeName}>{item.inputPlace}</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -139,27 +142,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
-{
-  /* <View style={styles.postCard}>
-        <Image
-          style={styles.postImage}
-          source={require("../assets/images/userFoto.jpg")}
-        />
-        <Text style={styles.postName}>Название поста</Text>
-        <View style={styles.postInfo}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("CommentsScreen")}
-          >
-            <View style={styles.postComments}>
-              <Feather name="message-circle" size={18} color="#BDBDBD" />
-              <Text style={styles.quantityComments}>0</Text>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.postPlace}>
-            <Feather name="map-pin" size={18} color="#BDBDBD" />
-            <Text style={styles.placeName}>Name place</Text>
-          </View>
-        </View>
-      </View> */
-}

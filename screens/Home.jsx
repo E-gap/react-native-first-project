@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
-
 import { useState } from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import PostsScreen from "./PostsScreen";
 import CreatePostsScreen from "./CreatePostsScreen";
@@ -9,8 +9,6 @@ import ProfileScreen from "./ProfileScreen";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const Tab = createBottomTabNavigator();
 
@@ -54,7 +52,7 @@ export default function Home({ navigation, route }) {
         name="CreatePostsScreen"
         listeners={{
           tabPress: (e) => {
-            setDisplayTabBar(true);
+            setDisplayTabBar(false);
           },
         }}
         component={CreatePostsScreen}

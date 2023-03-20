@@ -27,7 +27,7 @@ export default function CommentsScreen({ navigation }) {
       <View style={styles.container}>
         <Image
           style={styles.postImage}
-          source={require("../assets/images/userFoto.jpg")}
+          source={require("../../assets/images/userFoto.jpg")}
         />
         <View
           style={{
@@ -38,7 +38,7 @@ export default function CommentsScreen({ navigation }) {
           <View style={styles.postCommentOdd}>
             <Image
               style={{ width: 28, height: 28 }}
-              source={require("../assets/images/Ellipse.png")}
+              source={require("../../assets/images/Ellipse.png")}
             />
             <View style={styles.commentOdd}>
               <Text style={styles.commentTextOdd}>Text comment</Text>
@@ -48,7 +48,7 @@ export default function CommentsScreen({ navigation }) {
           <View style={styles.postCommentEven}>
             <Image
               style={{ width: 28, height: 28 }}
-              source={require("../assets/images/Ellipse.png")}
+              source={require("../../assets/images/Ellipse.png")}
             />
             <View style={styles.commentEven}>
               <Text style={styles.commentTextEven}>Text comment</Text>

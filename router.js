@@ -7,8 +7,8 @@ const MainStack = createNativeStackNavigator();
 import RegistrationScreen from "./screens/RegistrationScreen";
 import LoginScreen from "./screens/LoginScreen";
 import Home from "./screens/Home";
-import MapScreen from "./screens/MapScreen";
-import CommentsScreen from "./screens/CommentsScreen";
+import MapScreen from "./screens/nestedScreens/MapScreen";
+import CommentsScreen from "./screens/nestedScreens/CommentsScreen";
 
 export const useRoute = () => {
   return (

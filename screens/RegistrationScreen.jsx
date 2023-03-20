@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,7 +12,6 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import { useState, useEffect } from "react";
 import { AntDesign } from "react-native-vector-icons";
 
 export default function RegistrationScreen({ navigation }) {

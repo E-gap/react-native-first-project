@@ -95,7 +95,7 @@ export default function CreatePostsScreen({ navigation }) {
     setInputName("");
     setInputPlace("");
     setIsCamera(false);
-    navigation.navigate("PostsScreen", newPost);
+    navigation.navigate("DefaultPostsScreen", newPost);
   };
 
   const clearFields = () => {
@@ -124,14 +124,9 @@ export default function CreatePostsScreen({ navigation }) {
           </TouchableOpacity>
         </Camera>
       ) : (
-        <TouchableOpacity
-          style={styles.buttonTurnOnCamera}
-          onPress={() => {
-            setIsCamera(true);
-          }}
-        >
-          <Text style={styles.textOnCamera}>TURN ON CAMERA</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonTurnOnCamera}>
+          <Text style={styles.textOnCamera}>Loading Camera</Text>
+        </View>
       )}
 
       <View style={styles.form}>
@@ -141,8 +136,18 @@ export default function CreatePostsScreen({ navigation }) {
               <Text style={styles.loadImageText}>Редактировать фото</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity style={styles.loadImage}>
-              <Text style={styles.loadImageText}>Загрузите фото</Text>
+            <TouchableOpacity
+              style={styles.loadImage}
+              onPress={() => {
+                setIsCamera(false);
+                setTimeout(() => {
+                  setIsCamera(true);
+                }, 0);
+              }}
+            >
+              <Text style={styles.loadImageText}>
+                Загрузите фото/включить камеру
+              </Text>
             </TouchableOpacity>
           )}
           <TextInput
