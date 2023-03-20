@@ -21,6 +21,8 @@ export default function CreatePostsScreen({ navigation }) {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
 
+  const [isCamera, setIsCamera] = useState(true);
+
   if (!permission) {
     // Camera permissions are still loading
     return <View />;
@@ -70,6 +72,7 @@ export default function CreatePostsScreen({ navigation }) {
     };
     setInputName("");
     setInputPlace("");
+    setIsCamera(false);
     navigation.navigate("PostsScreen", newPost);
   };
 
@@ -81,7 +84,7 @@ export default function CreatePostsScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {permission.granted && (
+      {permission.granted && isCamera ? (
         <Camera style={styles.camera} type={type} ref={setCameraRef}>
           {fotoUri && (
             <View style={styles.fotoContainer}>
@@ -98,7 +101,17 @@ export default function CreatePostsScreen({ navigation }) {
             <Text style={styles.textFlipCamera}>FLIP CAMERA</Text>
           </TouchableOpacity>
         </Camera>
+      ) : (
+        <TouchableOpacity
+          style={styles.buttonTurnOnCamera}
+          onPress={() => {
+            setIsCamera(true);
+          }}
+        >
+          <Text style={styles.textOnCamera}>TURN ON CAMERA</Text>
+        </TouchableOpacity>
       )}
+
       <View style={styles.form}>
         <View style={styles.item}>
           {fotoUri && fotoUri !== "none" ? (
@@ -182,6 +195,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#E8E8E8",
     color: "#E8E8E8",
     borderRadius: 8,
+  },
+  buttonTurnOnCamera: {
+    height: 240,
+    backgroundColor: "#E8E8E8",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textOnCamera: {
+    color: "black",
+    fontWeight: "600",
   },
   button: {
     width: 60,
