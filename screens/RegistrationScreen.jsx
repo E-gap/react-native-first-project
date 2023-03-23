@@ -12,6 +12,10 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
+import { useDispatch } from "react-redux";
+
+import { register } from "../redux/auth/authOperations";
+
 import { AntDesign } from "react-native-vector-icons";
 
 export default function RegistrationScreen({ navigation }) {
@@ -23,6 +27,8 @@ export default function RegistrationScreen({ navigation }) {
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isLoginFocused, setIsLoginFocused] = useState(false);
+
+  const dispatch = useDispatch();
 
   const toShowPassword = securePassword ? "Показать" : "Скрыть";
 
@@ -42,7 +48,7 @@ export default function RegistrationScreen({ navigation }) {
       email,
       password,
     };
-    console.log(data);
+    //console.log(data);
     setLogin("");
     setEmail("");
     setPassword("");
@@ -50,6 +56,7 @@ export default function RegistrationScreen({ navigation }) {
       screen: "PostsScreen",
       params: { userName: login, userEmail: email },
     });
+    dispatch(register(data));
   };
 
   const clickOnBackground = () => {
