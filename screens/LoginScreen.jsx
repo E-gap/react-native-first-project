@@ -11,6 +11,8 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/auth/authOperations";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -19,6 +21,8 @@ export default function LoginScreen({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+
+  const dispatch = useDispatch();
 
   const toShowPassword = securePassword ? "Показать" : "Скрыть";
 
@@ -43,6 +47,7 @@ export default function LoginScreen({ navigation }) {
       screen: "PostsScreen",
       /* params: { userEmail: email }, */
     });
+    dispatch(login(data));
   };
 
   const clickOnBackground = () => {

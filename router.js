@@ -10,19 +10,25 @@ import Home from "./screens/Home";
 import MapScreen from "./screens/nestedScreens/MapScreen";
 import CommentsScreen from "./screens/nestedScreens/CommentsScreen";
 
-export const useRoute = () => {
+export const useRoute = (userId) => {
+  if (!userId) {
+    return (
+      <MainStack.Navigator>
+        <MainStack.Screen
+          options={{ headerShown: false }}
+          name="LoginScreen"
+          component={LoginScreen}
+        />
+        <MainStack.Screen
+          options={{ headerShown: false }}
+          name="RegistrationScreen"
+          component={RegistrationScreen}
+        />
+      </MainStack.Navigator>
+    );
+  }
   return (
     <MainStack.Navigator>
-      <MainStack.Screen
-        options={{ headerShown: false }}
-        name="LoginScreen"
-        component={LoginScreen}
-      />
-      <MainStack.Screen
-        options={{ headerShown: false }}
-        name="RegistrationScreen"
-        component={RegistrationScreen}
-      />
       <MainStack.Screen
         options={{ headerShown: false, headerTitleAlign: "center" }}
         name="Home"

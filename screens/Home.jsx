@@ -12,8 +12,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
-export default function Home({ navigation, route }) {
-  const { userName, userEmail } = route.params;
+export default function Home({ navigation }) {
+  //const { userName, userEmail } = route.params;
   const [displayTabBar, setDisplayTabBar] = useState(true);
 
   return (
