@@ -4,11 +4,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
-  //onAuthStateChanged,
+  onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
 import { app } from "../../firebase/config";
 
-import { updateUser } from "./authReduser";
+import { updateUser, stateChange } from "./authReduser";
 
 const auth = getAuth(app);
 
@@ -51,9 +52,6 @@ export const login = createAsyncThunk(
       console.log(currentUser);
 
       return currentUser;
-
-      /* const user = userCredential.user;
-      thunkAPI.dispatch(updateUser({ userId: user.uid })); */
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -61,61 +59,38 @@ export const login = createAsyncThunk(
   }
 );
 
-export const refresh = createAsyncThunk("auth/refresh", async () => {
-  try {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const uid = user.uid;
-        //console.log(uid);
-        //setUserId(uid);
-        return uid;
-      } else {
-        console.log("нету пользователя");
-      }
-    });
-  } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  }
-});
-
-/* export const login = createAsyncThunk(
-  "auth/login",
-  async (credentials, thunkApi) => {
+export const refresh = createAsyncThunk(
+  "auth/refresh",
+  async (_, { dispatch, fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await axios.post("/users/login", credentials);
-      axios.defaults.headers.common.Authorization = `Bearer ${data.token}`;
-      Notiflix.Notify.success("You have successfully login", {
-        width: "500px",
-        position: "center-center",
-        fontSize: "25px",
-        timeout: "1500",
+      await onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const data = {
+            userId: user.uid,
+            login: user.displayName,
+          };
+          dispatch(updateUser(data));
+          dispatch(stateChange({ stateChange: true }));
+        } else {
+          console.log("Пользователь не зарегистрирован");
+        }
       });
-      return data;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+      const errorCode = error.code;
+      const errorMessage = error.message;
     }
   }
-); */
+);
 
-export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
-  try {
-    await axios.post("/users/logout");
-    axios.defaults.headers.common.Authorization = ``;
-  } catch (error) {
-    return thunkApi.rejectWithValue(error.message);
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { dispatch }) => {
+    try {
+      await signOut(auth);
+      dispatch(stateChange({ stateChange: false }));
+      dispatch(updateUser({ userId: null, login: null }));
+    } catch (error) {
+      console.log("Разлогинивание не возможно");
+    }
   }
-});
-
-/* export const refresh = createAsyncThunk("auth/current", async (_, thunkApi) => {
-  const { token } = thunkApi.getState().auth;
-  if (!token) return thunkApi.rejectWithValue("No valid token");
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  try {
-    const { data } = await axios.get("/users/current");
-
-    return data;
-  } catch (error) {
-    return thunkApi.rejectWithValue(error.message);
-  }
-}); */
+);

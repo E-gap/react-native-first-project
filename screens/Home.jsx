@@ -1,5 +1,6 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import PostsScreen from "./PostsScreen";
@@ -10,11 +11,14 @@ import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
+import { logout } from "../redux/auth/authOperations";
+
 const Tab = createBottomTabNavigator();
 
 export default function Home({ navigation }) {
   //const { userName, userEmail } = route.params;
   const [displayTabBar, setDisplayTabBar] = useState(true);
+  const dispatch = useDispatch();
 
   return (
     <Tab.Navigator
@@ -42,7 +46,9 @@ export default function Home({ navigation }) {
                 name="log-out"
                 size={24}
                 color="#BDBDBD"
-                onPress={() => navigation.navigate("LoginScreen")}
+                onPress={() => {
+                  dispatch(logout());
+                }}
               />
             </TouchableOpacity>
           ),

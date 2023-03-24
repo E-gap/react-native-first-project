@@ -13,7 +13,7 @@ const auth = getAuth(app);
 export default function Main() {
   //const [userId, setUserId] = useState(false);
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.auth.userId);
+  const stateChange = useSelector((state) => state.auth.stateChange);
 
   useEffect(() => {
     dispatch(refresh());
@@ -28,7 +28,7 @@ export default function Main() {
       console.log("нету пользователя");
     }
   }); */
-  const routes = useRoute(userId);
+  const routes = useRoute(stateChange);
 
   return <NavigationContainer>{routes}</NavigationContainer>;
 }

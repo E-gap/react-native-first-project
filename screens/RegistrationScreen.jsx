@@ -48,7 +48,7 @@ export default function RegistrationScreen({ navigation }) {
       email,
       password,
     };
-    //console.log(data);
+
     setLogin("");
     setEmail("");
     setPassword("");
