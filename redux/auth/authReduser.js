@@ -14,10 +14,14 @@ export const authSlice = createSlice({
     updateUser(state, { payload }) {
       return { ...state, userId: payload.userId, login: payload.login };
     },
-    stateChange(state, { payload }) {
+    stateChangeUser(state, { payload }) {
       return { ...state, stateChange: payload.stateChange };
     },
+    logoutUser() {
+      return initialState;
+    },
   },
+
   extraReducers: (builder) =>
     builder
       .addCase(register.fulfilled, (state, action) => {
@@ -26,6 +30,7 @@ export const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.userId = action.payload.uid;
         state.login = action.payload.displayName;
+        state.stateChange = true;
       })
       .addCase(refresh.fulfilled, (state, action) => {
         state.userId = action.payload.uid;
@@ -38,4 +43,4 @@ export const authSlice = createSlice({
 //export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 
 export default authSlice.reducer;
-export const { updateUser, stateChange } = authSlice.actions;
+export const { updateUser, stateChange, logoutUser } = authSlice.actions;

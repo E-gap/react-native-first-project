@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { app } from "../../firebase/config";
 
-import { updateUser, stateChange } from "./authReduser";
+import { updateUser, logoutUser } from "./authReduser";
 
 const auth = getAuth(app);
 
@@ -87,8 +87,7 @@ export const logout = createAsyncThunk(
   async (_, { dispatch }) => {
     try {
       await signOut(auth);
-      dispatch(stateChange({ stateChange: false }));
-      dispatch(updateUser({ userId: null, login: null }));
+      dispatch(logoutUser());
     } catch (error) {
       console.log("Разлогинивание не возможно");
     }

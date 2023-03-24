@@ -11,7 +11,6 @@ import { useDispatch } from "react-redux";
 const auth = getAuth(app);
 
 export default function Main() {
-  //const [userId, setUserId] = useState(false);
   const dispatch = useDispatch();
   const stateChange = useSelector((state) => state.auth.stateChange);
 
@@ -19,15 +18,6 @@ export default function Main() {
     dispatch(refresh());
   }, []);
 
-  /* onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const uid = user.uid;
-      //console.log(uid);
-      setUserId(uid);
-    } else {
-      console.log("нету пользователя");
-    }
-  }); */
   const routes = useRoute(stateChange);
 
   return <NavigationContainer>{routes}</NavigationContainer>;
