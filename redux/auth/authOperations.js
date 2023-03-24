@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  //onAuthStateChanged,
 } from "firebase/auth";
 import { app } from "../../firebase/config";
 
@@ -60,6 +61,24 @@ export const login = createAsyncThunk(
   }
 );
 
+export const refresh = createAsyncThunk("auth/refresh", async () => {
+  try {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+        //console.log(uid);
+        //setUserId(uid);
+        return uid;
+      } else {
+        console.log("нету пользователя");
+      }
+    });
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  }
+});
+
 /* export const login = createAsyncThunk(
   "auth/login",
   async (credentials, thunkApi) => {
@@ -88,7 +107,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
   }
 });
 
-export const refresh = createAsyncThunk("auth/current", async (_, thunkApi) => {
+/* export const refresh = createAsyncThunk("auth/current", async (_, thunkApi) => {
   const { token } = thunkApi.getState().auth;
   if (!token) return thunkApi.rejectWithValue("No valid token");
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -99,4 +118,4 @@ export const refresh = createAsyncThunk("auth/current", async (_, thunkApi) => {
   } catch (error) {
     return thunkApi.rejectWithValue(error.message);
   }
-});
+}); */
