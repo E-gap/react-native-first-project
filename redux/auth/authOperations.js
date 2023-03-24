@@ -3,6 +3,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { app } from "../../firebase/config";
 
@@ -20,8 +21,14 @@ export const register = createAsyncThunk(
         password
       );
 
-      const user = userCredential.user;
-      thunkAPI.dispatch(updateUser({ userId: user.uid }));
+      await updateProfile(auth.currentUser, {
+        displayName: login,
+      });
+
+      const currentUser = auth.currentUser;
+      console.log(currentUser);
+
+      return currentUser;
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -39,8 +46,13 @@ export const login = createAsyncThunk(
         password
       );
 
-      const user = userCredential.user;
-      thunkAPI.dispatch(updateUser({ userId: user.uid }));
+      const currentUser = auth.currentUser;
+      console.log(currentUser);
+
+      return currentUser;
+
+      /* const user = userCredential.user;
+      thunkAPI.dispatch(updateUser({ userId: user.uid })); */
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
