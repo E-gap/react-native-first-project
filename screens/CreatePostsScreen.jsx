@@ -118,8 +118,8 @@ export default function CreatePostsScreen({ navigation }) {
 
       //const aaa = await getDownloadURL(storage, "images/1679910070321");
 
-      const aaa = await getDownloadURL(result.ref);
-      console.log(aaa);
+      const urlFoto = await getDownloadURL(result.ref);
+      console.log(urlFoto);
     } catch (err) {
       console.log("Try again \n", err.message);
     }
