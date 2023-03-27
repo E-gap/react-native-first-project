@@ -9,16 +9,34 @@ import {
 
 import { Feather } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
+import { getDatabase, ref, onValue } from "firebase/database";
 
-export default function DefaultPostsScreen({ navigation, route }) {
+export default function DefaultPostsScreen({ navigation }) {
   const [posts, setPosts] = useState([]);
 
+  const getAllPosts = async () => {
+    const db = getDatabase();
+    const starCountRef = await ref(db, "posts/");
+
+    onValue(starCountRef, (snapshot) => {
+      const objectPosts = snapshot.val();
+      console.log("posts", objectPosts);
+      const allPostsFromServer = Object.values(objectPosts);
+      console.log("values", allPostsFromServer);
+      setPosts(allPostsFromServer);
+    });
+  };
+
   useEffect(() => {
+    getAllPosts();
+  }, []);
+
+  /* useEffect(() => {
     if (!route.params) {
       return;
     }
     setPosts((prevState) => [...prevState, route.params]);
-  }, [route.params]);
+  }, [route.params]); */
 
   return (
     <View style={styles.container}>
@@ -50,7 +68,10 @@ export default function DefaultPostsScreen({ navigation, route }) {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate("MapScreen", route.params.location)
+                  navigation.navigate("MapScreen", {
+                    latitude: item.locationLatitude,
+                    longitude: item.locationLongitude,
+                  })
                 }
               >
                 <View style={styles.postPlace}>

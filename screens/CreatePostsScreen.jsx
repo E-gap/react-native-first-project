@@ -135,9 +135,9 @@ export default function CreatePostsScreen({ navigation }) {
     set(ref2(db, "posts/" + postId), {
       userId,
       login,
-      locationLatitude: location.coords.latitude,
-      locationLongitude: location.coords.longitude,
-      photoPost: photo,
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      fotoUri: photo,
       postName,
       postPlace,
     });
