@@ -10,23 +10,27 @@ import {
   Image,
   Button,
 } from "react-native";
+import { useSelector } from "react-redux";
 
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-import { storage } from "../firebase/config";
+import { storage, database } from "../firebase/config";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { getDatabase, set, ref as ref2 } from "firebase/database";
 
 export default function CreatePostsScreen({ navigation }) {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [inputName, setInputName] = useState("");
-  const [inputPlace, setInputPlace] = useState("");
+  const [postName, setPostName] = useState("");
+  const [postPlace, setPostPlace] = useState("");
   const [cameraRef, setCameraRef] = useState(null);
   const [fotoUri, setFotoUri] = useState("");
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [isCamera, setIsCamera] = useState(true);
+
+  const { userId, login } = useSelector((state) => state.auth);
 
   useEffect(() => {
     (async () => {
@@ -71,6 +75,7 @@ export default function CreatePostsScreen({ navigation }) {
   const takeFoto = async () => {
     const foto = await cameraRef.takePictureAsync();
     const location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
     setFotoUri(foto.uri);
   };
 
@@ -79,30 +84,31 @@ export default function CreatePostsScreen({ navigation }) {
   };
 
   const backgroundBtnPublish =
-    inputName && inputPlace && fotoUri && fotoUri !== "none"
+    postName && postPlace && fotoUri && fotoUri !== "none"
       ? "#FF6C00"
       : "#E5E5E5";
   const colorTextBtnPublish =
-    inputName && inputPlace && fotoUri && fotoUri !== "none"
+    postName && postPlace && fotoUri && fotoUri !== "none"
       ? "#FFFFFF"
       : "#BDBDBD";
 
   const publishPost = () => {
     const newPost = {
-      inputName,
-      inputPlace,
+      postName,
+      postPlace,
       fotoUri,
+      location: location.coords,
     };
-    setInputName("");
-    setInputPlace("");
+    setPostName("");
+    setPostPlace("");
     setIsCamera(false);
-    uploadFotoToServer();
+    uploadPostToServer();
     navigation.navigate("DefaultPostsScreen", newPost);
   };
 
   const clearFields = () => {
-    setInputName("");
-    setInputPlace("");
+    setPostName("");
+    setPostPlace("");
     setFotoUri("none");
   };
 
@@ -114,15 +120,27 @@ export default function CreatePostsScreen({ navigation }) {
       const unicPostId = Date.now().toString();
       const reference = ref(storage, `images/${unicPostId}`);
       const result = await uploadBytesResumable(reference, file);
-      //console.log(reference);
-
-      //const aaa = await getDownloadURL(storage, "images/1679910070321");
-
       const urlFoto = await getDownloadURL(result.ref);
-      console.log(urlFoto);
+      return urlFoto;
     } catch (err) {
       console.log("Try again \n", err.message);
     }
+  };
+
+  const uploadPostToServer = async () => {
+    const photo = await uploadFotoToServer();
+    const db = getDatabase();
+    const postId = Date.now().toString();
+
+    set(ref2(db, "posts/" + postId), {
+      userId,
+      login,
+      locationLatitude: location.coords.latitude,
+      locationLongitude: location.coords.longitude,
+      photoPost: photo,
+      postName,
+      postPlace,
+    });
   };
 
   return (
@@ -174,17 +192,17 @@ export default function CreatePostsScreen({ navigation }) {
           <TextInput
             placeholder="Название"
             placeholderTextColor="#BDBDBD"
-            style={styles.inputName}
-            value={inputName}
-            onChangeText={(value) => setInputName(value)}
+            style={styles.postName}
+            value={postName}
+            onChangeText={(value) => setPostName(value)}
           />
           <View>
             <TextInput
               placeholder="Местность"
               placeholderTextColor="#BDBDBD"
-              style={styles.inputPlace}
-              value={inputPlace}
-              onChangeText={(value) => setInputPlace(value)}
+              style={styles.postPlace}
+              value={postPlace}
+              onChangeText={(value) => setPostPlace(value)}
             />
             <View style={styles.iconPlace}>
               <Feather name="map-pin" size={18} color="#BDBDBD" />
@@ -278,7 +296,7 @@ const styles = StyleSheet.create({
     color: "#BDBDBD",
     marginBottom: 48,
   },
-  inputName: {
+  postName: {
     fontSize: 16,
     marginBottom: 32,
     borderWidth: 1,
@@ -288,7 +306,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     color: "#212121",
   },
-  inputPlace: {
+  postPlace: {
     fontSize: 16,
     marginBottom: 32,
     borderWidth: 1,

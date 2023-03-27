@@ -15,7 +15,7 @@ import { logout } from "../redux/auth/authOperations";
 
 const Tab = createBottomTabNavigator();
 
-export default function Home({ navigation }) {
+export default function Home() {
   //const { userName, userEmail } = route.params;
   const [displayTabBar, setDisplayTabBar] = useState(true);
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ export default function Home({ navigation }) {
       <Tab.Screen
         name="PostsScreen"
         component={PostsScreen}
-        options={({ navigation }) => ({
+        options={() => ({
           headerTitleAlign: "center",
           tabBarShowLabel: false,
           tabBarIcon: ({ focused, size, color }) => {
@@ -57,7 +57,7 @@ export default function Home({ navigation }) {
       <Tab.Screen
         name="CreatePostsScreen"
         listeners={{
-          tabPress: (e) => {
+          tabPress: () => {
             setDisplayTabBar(false);
           },
         }}

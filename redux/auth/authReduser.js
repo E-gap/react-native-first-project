@@ -21,11 +21,13 @@ export const authSlice = createSlice({
       return initialState;
     },
   },
-
   extraReducers: (builder) =>
     builder
       .addCase(register.fulfilled, (state, action) => {
         state.userId = action.payload.uid;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.userId = null;
       })
       .addCase(login.fulfilled, (state, action) => {
         state.userId = action.payload.uid;
@@ -36,6 +38,11 @@ export const authSlice = createSlice({
         state.userId = action.payload.uid;
         state.login = action.payload.displayName;
         state.stateChange = true;
+      })
+      .addCase(refresh.rejected, (state, action) => {
+        state.userId = null;
+        state.login = null;
+        state.stateChange = false;
       }),
 });
 

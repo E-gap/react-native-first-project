@@ -38,7 +38,7 @@ export default function DefaultPostsScreen({ navigation, route }) {
         renderItem={({ item }) => (
           <View style={styles.postCard}>
             <Image style={styles.postImage} source={{ uri: item.fotoUri }} />
-            <Text style={styles.postName}>{item.inputName}</Text>
+            <Text style={styles.postName}>{item.postName}</Text>
             <View style={styles.postInfo}>
               <TouchableOpacity
                 onPress={() => navigation.navigate("CommentsScreen")}
@@ -49,11 +49,13 @@ export default function DefaultPostsScreen({ navigation, route }) {
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => navigation.navigate("MapScreen")}
+                onPress={() =>
+                  navigation.navigate("MapScreen", route.params.location)
+                }
               >
                 <View style={styles.postPlace}>
                   <Feather name="map-pin" size={18} color="#BDBDBD" />
-                  <Text style={styles.placeName}>{item.inputPlace}</Text>
+                  <Text style={styles.placeName}>{item.postPlace}</Text>
                 </View>
               </TouchableOpacity>
             </View>
