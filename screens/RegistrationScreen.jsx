@@ -54,7 +54,7 @@ export default function RegistrationScreen({ navigation }) {
     setPassword("");
     navigation.navigate("Home", {
       screen: "PostsScreen",
-      params: { userName: login, userEmail: email },
+      //params: { userName: login, userEmail: email },
     });
     dispatch(register(data));
   };

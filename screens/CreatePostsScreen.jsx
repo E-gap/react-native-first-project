@@ -114,9 +114,14 @@ export default function CreatePostsScreen({ navigation }) {
       const unicPostId = Date.now().toString();
       const reference = ref(storage, `images/${unicPostId}`);
       const result = await uploadBytesResumable(reference, file);
-      await getDownloadURL(result.ref);
+      //console.log(reference);
+
+      //const aaa = await getDownloadURL(storage, "images/1679910070321");
+
+      const aaa = await getDownloadURL(result.ref);
+      console.log(aaa);
     } catch (err) {
-      Alert.alert("Try again \n", err.message);
+      console.log("Try again \n", err.message);
     }
   };
 

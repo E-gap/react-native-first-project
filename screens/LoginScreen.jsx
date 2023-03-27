@@ -45,7 +45,7 @@ export default function LoginScreen({ navigation }) {
     setPassword("");
     navigation.navigate("Home", {
       screen: "PostsScreen",
-      /* params: { userEmail: email }, */
+      
     });
     dispatch(login(data));
   };
