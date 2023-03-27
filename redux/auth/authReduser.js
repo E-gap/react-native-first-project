@@ -43,4 +43,4 @@ export const authSlice = createSlice({
 //export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 
 export default authSlice.reducer;
-export const { updateUser, stateChange, logoutUser } = authSlice.actions;
+export const { updateUser, stateChangeUser, logoutUser } = authSlice.actions;

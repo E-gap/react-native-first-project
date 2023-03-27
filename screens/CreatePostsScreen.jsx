@@ -14,6 +14,9 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 
+import { storage } from "../firebase/config";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+
 export default function CreatePostsScreen({ navigation }) {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -68,8 +71,6 @@ export default function CreatePostsScreen({ navigation }) {
   const takeFoto = async () => {
     const foto = await cameraRef.takePictureAsync();
     const location = await Location.getCurrentPositionAsync({});
-    console.log("широта", location.coords.latitude);
-    console.log("долгота", location.coords.longitude);
     setFotoUri(foto.uri);
   };
 
@@ -95,6 +96,7 @@ export default function CreatePostsScreen({ navigation }) {
     setInputName("");
     setInputPlace("");
     setIsCamera(false);
+    uploadFotoToServer();
     navigation.navigate("DefaultPostsScreen", newPost);
   };
 
@@ -102,6 +104,20 @@ export default function CreatePostsScreen({ navigation }) {
     setInputName("");
     setInputPlace("");
     setFotoUri("none");
+  };
+
+  const uploadFotoToServer = async () => {
+    if (!fotoUri) return;
+    try {
+      const response = await fetch(fotoUri);
+      const file = await response.blob();
+      const unicPostId = Date.now().toString();
+      const reference = ref(storage, `images/${unicPostId}`);
+      const result = await uploadBytesResumable(reference, file);
+      await getDownloadURL(result.ref);
+    } catch (err) {
+      Alert.alert("Try again \n", err.message);
+    }
   };
 
   return (

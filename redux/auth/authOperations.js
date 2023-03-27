@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { app } from "../../firebase/config";
 
-import { updateUser, logoutUser } from "./authReduser";
+import { updateUser, logoutUser, stateChangeUser } from "./authReduser";
 
 const auth = getAuth(app);
 
@@ -61,7 +61,7 @@ export const login = createAsyncThunk(
 
 export const refresh = createAsyncThunk(
   "auth/refresh",
-  async (_, { dispatch, fulfillWithValue, rejectWithValue }) => {
+  async (_, { dispatch }) => {
     try {
       await onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -70,7 +70,7 @@ export const refresh = createAsyncThunk(
             login: user.displayName,
           };
           dispatch(updateUser(data));
-          dispatch(stateChange({ stateChange: true }));
+          dispatch(stateChangeUser({ stateChange: true }));
         } else {
           console.log("Пользователь не зарегистрирован");
         }
