@@ -16,7 +16,6 @@ import { logout } from "../redux/auth/authOperations";
 const Tab = createBottomTabNavigator();
 
 export default function Home() {
-  //const { userName, userEmail } = route.params;
   const [displayTabBar, setDisplayTabBar] = useState(true);
   const dispatch = useDispatch();
 

@@ -20,9 +20,10 @@ export default function DefaultPostsScreen({ navigation }) {
 
     onValue(starCountRef, (snapshot) => {
       const objectPosts = snapshot.val();
-      console.log("posts", objectPosts);
+      if (!objectPosts) {
+        return;
+      }
       const allPostsFromServer = Object.values(objectPosts);
-      console.log("values", allPostsFromServer);
       setPosts(allPostsFromServer);
     });
   };
@@ -30,13 +31,6 @@ export default function DefaultPostsScreen({ navigation }) {
   useEffect(() => {
     getAllPosts();
   }, []);
-
-  /* useEffect(() => {
-    if (!route.params) {
-      return;
-    }
-    setPosts((prevState) => [...prevState, route.params]);
-  }, [route.params]); */
 
   return (
     <View style={styles.container}>
@@ -59,7 +53,9 @@ export default function DefaultPostsScreen({ navigation }) {
             <Text style={styles.postName}>{item.postName}</Text>
             <View style={styles.postInfo}>
               <TouchableOpacity
-                onPress={() => navigation.navigate("CommentsScreen")}
+                onPress={() =>
+                  navigation.navigate("CommentsScreen", { postId: item.postId })
+                }
               >
                 <View style={styles.postComments}>
                   <Feather name="message-circle" size={18} color="#BDBDBD" />

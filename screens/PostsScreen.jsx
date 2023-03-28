@@ -7,7 +7,7 @@ import MapScreen from "../screens/nestedScreens/MapScreen";
 
 const NestedScreen = createStackNavigator();
 
-export default function PostsScreen({ navigation }) {
+export default function PostsScreen() {
   return (
     <NestedScreen.Navigator>
       <NestedScreen.Screen

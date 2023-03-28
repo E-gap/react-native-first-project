@@ -8,14 +8,36 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import { getDatabase, ref, set } from "firebase/database";
+import date from "date-and-time";
 
 import { useState } from "react";
 
 import { AntDesign } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
-export default function CommentsScreen({ navigation }) {
+export default function CommentsScreen({ route }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [textNewComment, setTextNewComment] = useState("");
+  const { login } = useSelector((state) => state.auth);
+
+  const { postId } = route.params;
+
+  const createComment = async () => {
+    //console.log("create new comment");
+    const db = getDatabase();
+    const commentId = Date.now().toString();
+
+    const now = new Date();
+    const commentDate = date.format(now, "YYYY.MM.DD HH:mm:ss");
+
+    set(ref(db, "posts/" + postId + "/comments/" + commentId), {
+      textComment: textNewComment,
+      commentId,
+      login,
+      commentDate,
+    });
+  };
 
   const clickOnBackground = () => {
     setIsShowKeyboard(false);
@@ -65,7 +87,6 @@ export default function CommentsScreen({ navigation }) {
             onChangeText={(value) => setTextNewComment(value)}
             onFocus={() => {
               setIsShowKeyboard(true);
-              console.log("клавиатура");
             }}
             onBlur={() => {
               setIsShowKeyboard(false);
@@ -77,6 +98,7 @@ export default function CommentsScreen({ navigation }) {
               setIsShowKeyboard(false);
               setTextNewComment("");
               Keyboard.dismiss();
+              createComment();
             }}
           >
             <AntDesign name="arrowup" size={24} color="#FFFFFF" />

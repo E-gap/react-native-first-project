@@ -133,6 +133,7 @@ export default function CreatePostsScreen({ navigation }) {
     const postId = Date.now().toString();
 
     set(ref2(db, "posts/" + postId), {
+      postId,
       userId,
       login,
       latitude: location.coords.latitude,
