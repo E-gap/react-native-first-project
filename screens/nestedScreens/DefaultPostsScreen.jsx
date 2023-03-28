@@ -10,9 +10,11 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { getDatabase, ref, onValue } from "firebase/database";
+import { useSelector } from "react-redux";
 
 export default function DefaultPostsScreen({ navigation }) {
   const [posts, setPosts] = useState([]);
+  const { login, userEmail } = useSelector((state) => state.auth);
 
   const getAllPosts = async () => {
     const db = getDatabase();
@@ -24,6 +26,7 @@ export default function DefaultPostsScreen({ navigation }) {
         return;
       }
       const allPostsFromServer = Object.values(objectPosts);
+
       setPosts(allPostsFromServer);
     });
   };
@@ -40,8 +43,8 @@ export default function DefaultPostsScreen({ navigation }) {
           source={require("../../assets/images/userFoto.jpg")}
         />
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>UserName</Text>
-          <Text style={styles.userEmail}>UserEmail</Text>
+          <Text style={styles.userName}>{login}</Text>
+          <Text style={styles.userEmail}>{userEmail}</Text>
         </View>
       </View>
       <FlatList
@@ -62,14 +65,16 @@ export default function DefaultPostsScreen({ navigation }) {
               >
                 <View style={styles.postComments}>
                   <Feather name="message-circle" size={18} color="#BDBDBD" />
-                  <Text style={styles.quantityComments}>0</Text>
+                  <Text style={styles.quantityComments}>
+                    {item.comments ? Object.values(item.comments).length : "0"}
+                  </Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate("MapScreen", {
-                    latitude: item.locationLatitude,
-                    longitude: item.locationLongitude,
+                    latitude: item.latitude,
+                    longitude: item.longitude,
                   })
                 }
               >

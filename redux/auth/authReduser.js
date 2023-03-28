@@ -4,7 +4,9 @@ import { register, login, refresh } from "./authOperations";
 initialState = {
   userId: null,
   login: null,
+  userEmail: null,
   stateChange: false,
+  userOnProfile: false,
 };
 
 export const authSlice = createSlice({
@@ -12,13 +14,24 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     updateUser(state, { payload }) {
-      return { ...state, userId: payload.userId, login: payload.login };
+      return {
+        ...state,
+        userId: payload.userId,
+        login: payload.login,
+        userEmail: payload.email,
+      };
     },
     stateChangeUser(state, { payload }) {
       return { ...state, stateChange: payload.stateChange };
     },
     logoutUser() {
       return initialState;
+    },
+    userOnProfileScreen(state) {
+      return { ...state, userOnProfile: true };
+    },
+    userOffProfileScreen(state) {
+      return { ...state, userOnProfile: false };
     },
   },
   extraReducers: (builder) =>
@@ -50,4 +63,10 @@ export const authSlice = createSlice({
 //export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 
 export default authSlice.reducer;
-export const { updateUser, stateChangeUser, logoutUser } = authSlice.actions;
+export const {
+  updateUser,
+  stateChangeUser,
+  logoutUser,
+  userOnProfileScreen,
+  userOffProfileScreen,
+} = authSlice.actions;

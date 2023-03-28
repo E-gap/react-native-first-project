@@ -1,8 +1,67 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from "react-native";
 import { AntDesign } from "react-native-vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  set,
+  query,
+  orderByChild,
+  equalTo,
+} from "firebase/database";
 
-export default function RegistrationScreen({ navigation }) {
+import {
+  userOnProfileScreen,
+  userOffProfileScreen,
+} from "../redux/auth/authReduser";
+
+export default function ProfileScreen({ navigation }) {
+  const [postsUser, setPostsUser] = useState([]);
+  const { login, userId, userOnProfile } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const getAllPostsUser = async () => {
+    const db = getDatabase();
+    const starCountRef = query(
+      ref(db, "posts"),
+      orderByChild("userId"),
+      equalTo(userId)
+    );
+
+    onValue(starCountRef, (snapshot) => {
+      const objectPosts = snapshot.val();
+      if (!objectPosts) {
+        return;
+      }
+      const allPostsFromServer = Object.values(objectPosts);
+      setPostsUser(allPostsFromServer);
+    });
+  };
+
+  useEffect(() => {
+    getAllPostsUser();
+  }, []);
+
+  console.log(userOnProfile);
+
+  const createLike = async (postIdd) => {
+    const db = getDatabase();
+    const likeId = Date.now().toString();
+    set(ref(db, "posts/" + postIdd + "/likes/" + likeId), {
+      likeId,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -34,44 +93,61 @@ export default function RegistrationScreen({ navigation }) {
           />
         </TouchableOpacity>
         <View style={styles.userName}>
-          <Text style={styles.userNameTitle}>userName</Text>
+          <Text style={styles.userNameTitle}>{login}</Text>
         </View>
-        <View style={styles.postCard}>
-          <Image
-            style={styles.postImage}
-            source={require("../assets/images/userFoto.jpg")}
+        <View style={styles.flatList}>
+          <FlatList
+            data={postsUser}
+            keyExtractor={(item) => item.postId.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.postCard}>
+                <Image
+                  style={styles.postImage}
+                  source={{ uri: item.fotoUri }}
+                />
+                <Text style={styles.postName}>{item.postName}</Text>
+                <View style={styles.postInfo}>
+                  <View style={styles.commentsLikes}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate("CommentsScreen", {
+                          postId: item.postId,
+                          fotoUri: item.fotoUri,
+                        })
+                      }
+                    >
+                      <View style={styles.postComments}>
+                        <Image
+                          style={{
+                            width: 18,
+                            height: 18,
+                          }}
+                          source={require("../assets/images/messageOrange.png")}
+                        />
+                        <Text style={styles.quantityComments}>
+                          {item.comments
+                            ? Object.values(item.comments).length
+                            : "0"}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => createLike(item.postId)}>
+                      <View style={styles.postLikes}>
+                        <Feather name="thumbs-up" size={18} color="#FF6C00" />
+                        <Text style={styles.quantityLikes}>
+                          {item.likes ? Object.values(item.likes).length : "0"}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.postPlace}>
+                    <Feather name="map-pin" size={18} color="#BDBDBD" />
+                    <Text style={styles.placeName}>{item.postPlace}</Text>
+                  </View>
+                </View>
+              </View>
+            )}
           />
-          <Text style={styles.postName}>Название поста</Text>
-          <View style={styles.postInfo}>
-            <View style={styles.commentsLikes}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("CommentsScreen")}
-              >
-                <View style={styles.postComments}>
-                  <Image
-                    style={{
-                      width: 18,
-                      height: 18,
-                    }}
-                    source={require("../assets/images/messageOrange.png")}
-                  />
-                  <Text style={styles.quantityComments}>0</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-              //onPress={() => navigation.navigate("CommentsScreen")}
-              >
-                <View style={styles.postLikes}>
-                  <Feather name="thumbs-up" size={18} color="#FF6C00" />
-                  <Text style={styles.quantityLikes}>0</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.postPlace}>
-              <Feather name="map-pin" size={18} color="#BDBDBD" />
-              <Text style={styles.placeName}>Name place</Text>
-            </View>
-          </View>
         </View>
       </View>
     </View>
@@ -194,5 +270,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 24,
     right: 24,
+  },
+  flatList: {
+    paddingBottom: 150,
   },
 });

@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import PostsScreen from "./PostsScreen";
@@ -13,11 +13,17 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { logout } from "../redux/auth/authOperations";
 
+import {
+  userOffProfileScreen,
+  userOnProfileScreen,
+} from "../redux/auth/authReduser";
+
 const Tab = createBottomTabNavigator();
 
 export default function Home() {
   const [displayTabBar, setDisplayTabBar] = useState(true);
   const dispatch = useDispatch();
+  const { userOnProfile } = useSelector((state) => state.auth);
 
   return (
     <Tab.Navigator
@@ -32,6 +38,11 @@ export default function Home() {
     >
       <Tab.Screen
         name="PostsScreen"
+        listeners={{
+          tabPress: () => {
+            dispatch(userOffProfileScreen());
+          },
+        }}
         component={PostsScreen}
         options={() => ({
           headerTitleAlign: "center",
@@ -53,51 +64,115 @@ export default function Home() {
           ),
         })}
       />
-      <Tab.Screen
-        name="CreatePostsScreen"
-        listeners={{
-          tabPress: () => {
-            setDisplayTabBar(false);
-          },
-        }}
-        component={CreatePostsScreen}
-        options={({ navigation }) => ({
-          headerTitleAlign: "center",
-          tabBarShowLabel: false,
-          tabBarIcon: ({ size, color }) => {
-            return <AntDesign name="plus" size={size} color={color} />;
-          },
-          headerLeft: () => (
-            <TouchableOpacity style={styles.goBack}>
-              <Ionicons
-                name="arrow-back"
-                size={24}
-                color="#BDBDBD"
-                onPress={() => {
-                  navigation.goBack();
-                  setDisplayTabBar(true);
-                }}
-              />
-            </TouchableOpacity>
-          ),
-          tabBarItemStyle: {
-            backgroundColor: "#FF6C00",
-            borderRadius: 20,
-          },
-          tabBarActiveTintColor: "white",
-        })}
-      />
-      <Tab.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
-        options={{
-          headerTitleAlign: "center",
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused, size, color }) => {
-            return <Feather name="user" size={size} color={color} />;
-          },
-        }}
-      />
+      {!userOnProfile ? (
+        <>
+          <Tab.Screen
+            name="CreatePostsScreen"
+            listeners={{
+              tabPress: () => {
+                setDisplayTabBar(false);
+                dispatch(userOffProfileScreen());
+              },
+            }}
+            component={CreatePostsScreen}
+            options={({ navigation }) => ({
+              headerTitleAlign: "center",
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color }) => {
+                return <AntDesign name="plus" size={size} color={color} />;
+              },
+              headerLeft: () => (
+                <TouchableOpacity style={styles.goBack}>
+                  <Ionicons
+                    name="arrow-back"
+                    size={24}
+                    color="#BDBDBD"
+                    onPress={() => {
+                      navigation.goBack();
+                      setDisplayTabBar(true);
+                    }}
+                  />
+                </TouchableOpacity>
+              ),
+              tabBarItemStyle: {
+                backgroundColor: "#FF6C00",
+                borderRadius: 20,
+              },
+              tabBarActiveTintColor: "white",
+            })}
+          />
+          <Tab.Screen
+            name="ProfileScreen"
+            listeners={{
+              tabPress: () => {
+                dispatch(userOnProfileScreen());
+              },
+            }}
+            component={ProfileScreen}
+            options={{
+              headerTitleAlign: "center",
+              tabBarShowLabel: false,
+              tabBarIcon: ({ focused, size, color }) => {
+                return <Feather name="user" size={size} color={color} />;
+              },
+            }}
+          />
+        </>
+      ) : (
+        <>
+          <Tab.Screen
+            name="ProfileScreen"
+            listeners={{
+              tabPress: () => {
+                dispatch(userOnProfileScreen());
+              },
+            }}
+            component={ProfileScreen}
+            options={{
+              headerTitleAlign: "center",
+              tabBarShowLabel: false,
+              tabBarIcon: ({ focused, size, color }) => {
+                return <Feather name="user" size={size} color={color} />;
+              },
+            }}
+          />
+          <Tab.Screen
+            name="CreatePostsScreen"
+            listeners={{
+              tabPress: () => {
+                setDisplayTabBar(false);
+                dispatch(userOffProfileScreen());
+              },
+            }}
+            component={CreatePostsScreen}
+            options={({ navigation }) => ({
+              headerTitleAlign: "center",
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color }) => {
+                return <AntDesign name="plus" size={size} color={color} />;
+              },
+              headerLeft: () => (
+                <TouchableOpacity style={styles.goBack}>
+                  <Ionicons
+                    name="arrow-back"
+                    size={24}
+                    color="#BDBDBD"
+                    onPress={() => {
+                      navigation.goBack();
+                      setDisplayTabBar(true);
+                    }}
+                  />
+                </TouchableOpacity>
+              ),
+              tabBarItemStyle: {
+                backgroundColor: "#FF6C00",
+                borderRadius: 20,
+              },
+              tabBarActiveTintColor: "white",
+            })}
+          />
+        </>
+      )}
     </Tab.Navigator>
   );
 }

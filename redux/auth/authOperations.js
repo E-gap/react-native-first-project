@@ -68,6 +68,7 @@ export const refresh = createAsyncThunk(
           const data = {
             userId: user.uid,
             login: user.displayName,
+            email: user.email,
           };
           dispatch(updateUser(data));
           dispatch(stateChangeUser({ stateChange: true }));

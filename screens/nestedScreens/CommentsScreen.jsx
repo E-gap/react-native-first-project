@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
   Keyboard,
-  TouchableWithoutFeedback,
   FlatList,
 } from "react-native";
 import { getDatabase, ref, set, onValue } from "firebase/database";
