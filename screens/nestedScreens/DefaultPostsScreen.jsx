@@ -54,7 +54,10 @@ export default function DefaultPostsScreen({ navigation }) {
             <View style={styles.postInfo}>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate("CommentsScreen", { postId: item.postId })
+                  navigation.navigate("CommentsScreen", {
+                    postId: item.postId,
+                    fotoUri: item.fotoUri,
+                  })
                 }
               >
                 <View style={styles.postComments}>

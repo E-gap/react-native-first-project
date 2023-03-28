@@ -7,11 +7,12 @@ import {
   Image,
   Keyboard,
   TouchableWithoutFeedback,
+  FlatList,
 } from "react-native";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, onValue } from "firebase/database";
 import date from "date-and-time";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { AntDesign } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
@@ -19,18 +20,34 @@ import { useSelector } from "react-redux";
 export default function CommentsScreen({ route }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [textNewComment, setTextNewComment] = useState("");
+  const [comments, setComments] = useState([]);
   const { login } = useSelector((state) => state.auth);
 
-  const { postId } = route.params;
+  const { postId, fotoUri } = route.params;
+
+  const getAllComments = async () => {
+    const db = getDatabase();
+    const starCountRef = await ref(db, "posts/" + postId + "/comments");
+
+    onValue(starCountRef, (snapshot) => {
+      const objectComments = snapshot.val();
+      if (!objectComments) {
+        return;
+      }
+      const allCommentsFromServer = Object.values(objectComments);
+      setComments(allCommentsFromServer);
+    });
+  };
+
+  useEffect(() => {
+    getAllComments();
+  }, []);
 
   const createComment = async () => {
-    //console.log("create new comment");
     const db = getDatabase();
     const commentId = Date.now().toString();
-
     const now = new Date();
     const commentDate = date.format(now, "YYYY.MM.DD HH:mm:ss");
-
     set(ref(db, "posts/" + postId + "/comments/" + commentId), {
       textComment: textNewComment,
       commentId,
@@ -39,73 +56,76 @@ export default function CommentsScreen({ route }) {
     });
   };
 
-  const clickOnBackground = () => {
-    setIsShowKeyboard(false);
-    Keyboard.dismiss();
-  };
-
   return (
-    <TouchableWithoutFeedback onPress={clickOnBackground}>
-      <View style={styles.container}>
-        <Image
-          style={styles.postImage}
-          source={require("../../assets/images/userFoto.jpg")}
+    <View style={styles.container}>
+      <Image style={styles.postImage} source={{ uri: fotoUri }} />
+
+      <FlatList
+        data={comments}
+        keyExtractor={(item) => item.commentId.toString()}
+        renderItem={({ item, index }) => (
+          <View
+            style={
+              index % 2 === 0 ? styles.postCommentOdd : styles.postCommentEven
+            }
+          >
+            <Image
+              style={{ width: 28, height: 28 }}
+              source={require("../../assets/images/Ellipse.png")}
+            />
+            <View
+              style={index % 2 === 0 ? styles.commentOdd : styles.commentEven}
+            >
+              <Text
+                style={
+                  index % 2 === 0
+                    ? styles.commentTextOdd
+                    : styles.commentTextEven
+                }
+              >
+                {item.textComment}
+              </Text>
+              <Text
+                style={
+                  index % 2 === 0
+                    ? styles.commentDateOdd
+                    : styles.commentDateEven
+                }
+              >
+                {item.commentDate}
+              </Text>
+            </View>
+          </View>
+        )}
+      />
+
+      <View style={styles.newComment}>
+        <TextInput
+          style={styles.newCommentText}
+          placeholder="Комментировать..."
+          placeholderTextColor="#BDBDBD"
+          value={textNewComment}
+          onChangeText={(value) => setTextNewComment(value)}
+          onFocus={() => {
+            setIsShowKeyboard(true);
+          }}
+          onBlur={() => {
+            setIsShowKeyboard(false);
+          }}
         />
-        <View
-          style={{
-            ...styles.allComments,
-            display: isShowKeyboard ? "none" : "flex",
+        <TouchableOpacity
+          style={styles.btnAddComment}
+          onPress={() => {
+            setIsShowKeyboard(false);
+            setTextNewComment("");
+            Keyboard.dismiss();
+            createComment();
           }}
         >
-          <View style={styles.postCommentOdd}>
-            <Image
-              style={{ width: 28, height: 28 }}
-              source={require("../../assets/images/Ellipse.png")}
-            />
-            <View style={styles.commentOdd}>
-              <Text style={styles.commentTextOdd}>Text comment</Text>
-              <Text style={styles.commentDateOdd}>Comment Date</Text>
-            </View>
-          </View>
-          <View style={styles.postCommentEven}>
-            <Image
-              style={{ width: 28, height: 28 }}
-              source={require("../../assets/images/Ellipse.png")}
-            />
-            <View style={styles.commentEven}>
-              <Text style={styles.commentTextEven}>Text comment</Text>
-              <Text style={styles.commentDateEven}>Comment Date</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.newComment}>
-          <TextInput
-            style={styles.newCommentText}
-            placeholder="Комментировать..."
-            placeholderTextColor="#BDBDBD"
-            value={textNewComment}
-            onChangeText={(value) => setTextNewComment(value)}
-            onFocus={() => {
-              setIsShowKeyboard(true);
-            }}
-            onBlur={() => {
-              setIsShowKeyboard(false);
-            }}
-          />
-          <TouchableOpacity
-            style={styles.btnAddComment}
-            onPress={() => {
-              setIsShowKeyboard(false);
-              setTextNewComment("");
-              Keyboard.dismiss();
-              createComment();
-            }}
-          >
-            <AntDesign name="arrowup" size={24} color="#FFFFFF" />
-          </TouchableOpacity>
-        </View>
+          <AntDesign name="arrowup" size={24} color="#FFFFFF" />
+        </TouchableOpacity>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 }
 
@@ -183,9 +203,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.03)",
     borderRadius: 100,
     padding: 16,
-    position: "absolute",
-    bottom: 10,
-    transform: [{ translateX: 16 }],
+    marginBottom: 5,
+    marginTop: 5,
     width: "100%",
     display: "flex",
     flexDirection: "row",
