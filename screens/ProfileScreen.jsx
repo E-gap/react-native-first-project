@@ -52,8 +52,6 @@ export default function ProfileScreen({ navigation }) {
     getAllPostsUser();
   }, []);
 
-  console.log(userOnProfile);
-
   const createLike = async (postIdd) => {
     const db = getDatabase();
     const likeId = Date.now().toString();

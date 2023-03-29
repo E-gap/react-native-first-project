@@ -134,6 +134,11 @@ export default function Home() {
               tabBarIcon: ({ focused, size, color }) => {
                 return <Feather name="user" size={size} color={color} />;
               },
+              tabBarItemStyle: {
+                backgroundColor: "#FF6C00",
+                borderRadius: 20,
+              },
+              tabBarActiveTintColor: "white",
             }}
           />
           <Tab.Screen
@@ -164,11 +169,6 @@ export default function Home() {
                   />
                 </TouchableOpacity>
               ),
-              tabBarItemStyle: {
-                backgroundColor: "#FF6C00",
-                borderRadius: 20,
-              },
-              tabBarActiveTintColor: "white",
             })}
           />
         </>
