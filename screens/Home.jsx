@@ -1,5 +1,4 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -16,14 +15,16 @@ import { logout } from "../redux/auth/authOperations";
 import {
   userOffProfileScreen,
   userOnProfileScreen,
+  onDisplayTabBar,
+  offDisplayTabBar,
 } from "../redux/auth/authReduser";
 
 const Tab = createBottomTabNavigator();
 
 export default function Home() {
-  const [displayTabBar, setDisplayTabBar] = useState(true);
   const dispatch = useDispatch();
   const { userOnProfile } = useSelector((state) => state.auth);
+  const { isVisibleDisplayTabBar } = useSelector((state) => state.auth);
 
   return (
     <Tab.Navigator
@@ -32,7 +33,7 @@ export default function Home() {
           paddingTop: 9,
           paddingLeft: 93,
           paddingRight: 93,
-          display: displayTabBar ? "flex" : "none",
+          display: isVisibleDisplayTabBar ? "flex" : "none",
         },
       }}
     >
@@ -70,7 +71,7 @@ export default function Home() {
             name="CreatePostsScreen"
             listeners={{
               tabPress: () => {
-                setDisplayTabBar(false);
+                dispatch(offDisplayTabBar());
                 dispatch(userOffProfileScreen());
               },
             }}
@@ -89,7 +90,7 @@ export default function Home() {
                     color="#BDBDBD"
                     onPress={() => {
                       navigation.goBack();
-                      setDisplayTabBar(true);
+                      dispatch(onDisplayTabBar());
                     }}
                   />
                 </TouchableOpacity>
@@ -145,7 +146,7 @@ export default function Home() {
             name="CreatePostsScreen"
             listeners={{
               tabPress: () => {
-                setDisplayTabBar(false);
+                dispatch(offDisplayTabBar());
                 dispatch(userOffProfileScreen());
               },
             }}
@@ -164,7 +165,7 @@ export default function Home() {
                     color="#BDBDBD"
                     onPress={() => {
                       navigation.goBack();
-                      setDisplayTabBar(true);
+                      dispatch(onDisplayTabBar());
                     }}
                   />
                 </TouchableOpacity>

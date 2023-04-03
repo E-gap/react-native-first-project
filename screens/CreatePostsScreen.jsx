@@ -10,7 +10,9 @@ import {
   Image,
   Button,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import { onDisplayTabBar } from "../redux/auth/authReduser";
 
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -29,6 +31,8 @@ export default function CreatePostsScreen({ navigation }) {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [isCamera, setIsCamera] = useState(true);
+
+  const dispatch = useDispatch();
 
   const { userId, login } = useSelector((state) => state.auth);
 
@@ -103,7 +107,8 @@ export default function CreatePostsScreen({ navigation }) {
     setPostPlace("");
     setIsCamera(false);
     uploadPostToServer();
-    navigation.navigate("DefaultPostsScreen", newPost);
+    navigation.navigate("PostsScreen");
+    dispatch(onDisplayTabBar());
   };
 
   const clearFields = () => {
@@ -185,9 +190,7 @@ export default function CreatePostsScreen({ navigation }) {
                 }, 0);
               }}
             >
-              <Text style={styles.loadImageText}>
-                Загрузите фото/включить камеру
-              </Text>
+              <Text style={styles.loadImageText}>Включить камеру</Text>
             </TouchableOpacity>
           )}
           <TextInput

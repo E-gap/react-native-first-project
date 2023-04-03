@@ -7,6 +7,7 @@ initialState = {
   userEmail: null,
   stateChange: false,
   userOnProfile: false,
+  isVisibleDisplayTabBar: true,
 };
 
 export const authSlice = createSlice({
@@ -32,6 +33,12 @@ export const authSlice = createSlice({
     },
     userOffProfileScreen(state) {
       return { ...state, userOnProfile: false };
+    },
+    onDisplayTabBar(state) {
+      return { ...state, isVisibleDisplayTabBar: true };
+    },
+    offDisplayTabBar(state) {
+      return { ...state, isVisibleDisplayTabBar: false };
     },
   },
   extraReducers: (builder) =>
@@ -69,4 +76,6 @@ export const {
   logoutUser,
   userOnProfileScreen,
   userOffProfileScreen,
+  onDisplayTabBar,
+  offDisplayTabBar,
 } = authSlice.actions;
